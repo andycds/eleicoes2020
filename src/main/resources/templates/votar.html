@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width" />
+<title>Hello Spring Boot</title>
+<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" />
+<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"
+	rel="stylesheet" />
+</head>
+<body>
+	<div class="panel	panel-default" style="margin: 10px">
+		<div class="panel-heading">
+			<h1 class="panel-title">Vote</h1>
+		</div>
+		<div class="panel-body">
+			<!-- <form class="form-inline" method="POST" th:object="${aluno}" th:action="@{/alunos}" style="margin:
+20px 0">	
+				<div class="form-group">
+					<input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"/>
+					<input type="text" class="form-control" placeholder="Nota 1" th:field="*{nota1}"/>
+					<input type="text" class="form-control" placeholder="Nota 2" th:field="*{nota2}"/>
+					<button type="submit" class="btn btn-primary">Adicionar</button>
+				</div>
+			</form> -->
+			<h2 th:text="${eleicao.nome}">Eleição</h2>
+			
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Nome</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="candidato : ${eleicao.candidatos}">
+						<td th:text="${candidato.nome}"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</body>
+</html>

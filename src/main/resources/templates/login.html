@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8"/>
+		<meta name="viewport" content="width=device-width" />
+		<title>Login</title>
+	</head>
+	<body>		
+		<div class="panel panel-default" style="margin: 10px">		
+			<div class="panel-heading">
+				<h1 class="panel-title">Login Eleição 2020</h1>
+			</div>
+			<div class="panel-body">
+				<form class="form-inline" method="post" th:object="${pessoa}" th:action="@{/fazerLogin}" style="margin: 20px 0">
+					<div class="form-group">
+						<input required type="text" class="form-control" placeholder="Documento" th:field="*{documento}"/>
+						<input required type="password" class="form-control" placeholder="Senha" th:field="*{senha}"/>
+						<button type="submit" class="btn btn-primary">Login</button>
+					</div>
+				</form>
+			</div>
+		</div>
+	</body>
+</html>
