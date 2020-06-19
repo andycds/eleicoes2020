@@ -1,24 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head>
-		<meta charset="UTF-8"/>
-		<meta name="viewport" content="width=device-width" />
-		<title>Login</title>
+		<div th:replace="header :: padrao"></div>
+		<link href="/public/css/signin.css" rel="stylesheet">
+		<title>Eleição 2020</title>
 	</head>
-	<body>		
-		<div class="panel panel-default" style="margin: 10px">		
-			<div class="panel-heading">
-				<h1 class="panel-title">Login Eleição 2020</h1>
-			</div>
-			<div class="panel-body">
-				<form class="form-inline" method="post" th:object="${pessoa}" th:action="@{/fazerLogin}" style="margin: 20px 0">
-					<div class="form-group">
-						<input required type="text" class="form-control" placeholder="Documento" th:field="*{documento}"/>
-						<input required type="password" class="form-control" placeholder="Senha" th:field="*{senha}"/>
-						<button type="submit" class="btn btn-primary">Login</button>
-					</div>
-				</form>
-			</div>
-		</div>
+	<body class="text-center">		
+		<form class="form-signin" method="post" th:object="${pessoa}" th:action="@{/fazerLogin}">
+			<img class="mb-4" src="/public/images/vote.png" alt="voto" width="72" height="72">
+			<h1 class="h3 mb-3 font-weight-normal">Login Eleição 2020</h1>
+			<label for="documento" class="sr-only">Documento</label>
+			<input id="documento" type="text" class="form-control" placeholder="Documento" th:field="*{documento}" required autofocus/>
+			<label for="password" class="sr-only">Documento</label>
+			<input id="password" required type="password" class="form-control" placeholder="Senha" th:field="*{senha}"/>
+			<button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
+			<p class="mt-5 mb-3 text-muted">Eleição 2020</p>
+		</form>
+		<div th:replace="footer :: scripts"></div>
 	</body>
 </html>

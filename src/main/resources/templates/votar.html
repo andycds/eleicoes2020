@@ -2,20 +2,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width" />
-<title>Hello Spring Boot</title>
-<link th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"
-	rel="stylesheet" />
-<link th:href="@{/webjars/bootstrap/css/bootstrap-theme.min.css}"
-	rel="stylesheet" />
+	<div th:insert="header :: padrao"></div>
+	<title>Votação</title>
 </head>
 <body>
-	<div class="panel	panel-default" style="margin: 10px">
-		<div class="panel-heading">
-			<h1 class="panel-title">Vote</h1>
+<div class="container-sm">
+	<div class="card" style="margin: 10px">
+		<div class="card-header">
+			<h1>Vote</h1>
 		</div>
-		<div class="panel-body">
+		<div class="card-body">
 			<!-- <form class="form-inline" method="POST" th:object="${aluno}" th:action="@{/alunos}" style="margin:
 20px 0">	
 				<div class="form-group">
@@ -26,20 +22,33 @@
 				</div>
 			</form> -->
 			<h2 th:text="${eleicao.nome}">Eleição</h2>
-			
-			<table class="table">
-				<thead>
-					<tr>
-						<th>Nome</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr th:each="candidato : ${eleicao.candidatos}">
-						<td th:text="${candidato.nome}"></td>
-					</tr>
-				</tbody>
-			</table>
+			<form class="form-inline" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
+				<!-- <input type="hidden" th:field="*{eleicaoId}" th:value="${eleicao.id}"/> -->
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Candidatos</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="candidato : ${eleicao.candidatos}">
+						<!--<tr th:each="lon : ${candidatosId}">-->
+							<td>
+								<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" id="${candidato.id}" unchecked/>
+								 <!-- id="${candidato.id}" name="candidato" --> 
+								<label for="${candidato.id}" th:text="${candidato.nome}" >-</label>
+							</td>
+						</tr> 
+					</tbody>
+				</table>
+				<div>
+	    			<button class="btn btn-primary" type="submit">Enviar</button>
+	    			<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
+	  			</div>
+  			</form>
 		</div>
 	</div>
+	</div>
+	<div th:replace="footer :: scripts"></div>
 </body>
 </html>

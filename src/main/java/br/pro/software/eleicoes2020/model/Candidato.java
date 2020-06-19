@@ -2,10 +2,10 @@ package br.pro.software.eleicoes2020.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Data;
@@ -18,6 +18,13 @@ public class Candidato implements Serializable {
 	@GeneratedValue
 	private Long id;
 	private String nome;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne
+	@JoinColumn(name = "eleicao_id")
     private Eleicao eleicao;
+	private transient Boolean selecionado;
+
+	@Override
+	public String toString() {
+		return "candidato: [id: " + id + ", nome: " + nome + ", eleição: " + eleicao.getId() + "]";
+	}
 }

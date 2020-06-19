@@ -25,4 +25,11 @@ public class Voto implements Serializable {
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Eleicao eleicao;
 	private ZonedDateTime criado;
+
+	public Voto(Pessoa pessoa, Candidato candidato, Eleicao eleicao) {
+		this.pessoa = pessoa;
+		this.candidato = candidato;
+		this.eleicao = eleicao;
+		this.criado = ZonedDateTime.now();
+	}
 }

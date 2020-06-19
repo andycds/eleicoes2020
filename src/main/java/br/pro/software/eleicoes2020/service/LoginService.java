@@ -16,7 +16,11 @@ public class LoginService {
 	}
 	
 	public Pessoa obterPessoaPorDados(Pessoa pessoa) {
+		if (pessoa == null) {
+			return null;
+		}
 		return pessoaRepo.findOneByDocumentoAndSenha(
 				pessoa.getDocumento(), pessoa.getSenha());
 	}
+	
 }

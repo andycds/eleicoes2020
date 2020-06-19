@@ -24,6 +24,7 @@ public class Eleicao implements Serializable {
     private ZonedDateTime inicio;
     private ZonedDateTime fim;
 	private String senha;
-	@OneToMany
+	@OneToMany(mappedBy = "eleicao")
 	private List<Candidato> candidatos;
+	
 }

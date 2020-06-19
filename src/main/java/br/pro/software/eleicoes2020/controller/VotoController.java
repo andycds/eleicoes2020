@@ -1,14 +1,32 @@
 package br.pro.software.eleicoes2020.controller;
 
+import java.io.ByteArrayInputStream;
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.pro.software.eleicoes2020.model.Candidato;
 import br.pro.software.eleicoes2020.model.Pessoa;
+import br.pro.software.eleicoes2020.model.Voto;
+import br.pro.software.eleicoes2020.service.CandidatoService;
 import br.pro.software.eleicoes2020.service.LoginService;
+import br.pro.software.eleicoes2020.service.VotoService;
+import br.pro.software.eleicoes2020.transfer.Sufragio;
 
 
 @Controller
@@ -16,13 +34,63 @@ public class VotoController {
 	@Autowired
 	LoginService loginService;
 	
-	@GetMapping("/votar")
-	public ModelAndView votar(HttpServletRequest request) {
+	@Autowired
+	CandidatoService candidatoService;
+	
+	@Autowired
+	VotoService votoService;
+	
+	@ModelAttribute
+	public void addAttributes(HttpServletRequest request, Model model) {
 		Pessoa pessoa = loginService.obterPessoaPorDados(
 				(Pessoa) request.getSession().getAttribute("pessoa"));
+		model.addAttribute("pessoa", pessoa);
+		model.addAttribute("jaVotou", votoService.jaVotou(pessoa));
+	}
+
+	@GetMapping("/votar")
+	public ModelAndView votar(@ModelAttribute("pessoa") Pessoa pessoa,
+			@ModelAttribute("jaVotou") boolean jaVotou) {
+		if (jaVotou) {
+			return new ModelAndView( "redirect:/comprovante");
+		}
 		ModelAndView mv = new ModelAndView("votar");
 		mv.addObject("eleicao", pessoa.getEleicao());
-//		mv.addObject("candidatos", pessoa.getEleicao().getCandidatos());
+		Sufragio sufragio = new Sufragio();
+		List<Long> candidatosId = pessoa.getEleicao().getCandidatos()
+				.stream().map(c -> c.getId()).collect(Collectors.toList()); 
+		sufragio.setCandidatosId(candidatosId);
+		mv.addObject("sufragio", sufragio);
 		return mv;
+	}
+
+	@PostMapping(value = "/votando")
+	public String votando(@ModelAttribute("pessoa") Pessoa pessoa,
+			@ModelAttribute("jaVotou") boolean jaVotou, Sufragio sufragio) {
+		if (jaVotou) {
+			return "redirect:/comprovante";
+		}
+		for (Long candidatoId : sufragio.getCandidatosId()) {
+			Candidato candidato = candidatoService.obter(candidatoId); 
+			votoService.salvar(new Voto(pessoa, candidato, pessoa.getEleicao()));
+		}
+		return "redirect:/comprovante";
+	}
+	
+	@RequestMapping(value = "/comprovante", method = RequestMethod.GET,
+			produces = MediaType.APPLICATION_PDF_VALUE)
+	public ResponseEntity<InputStreamResource> comprovante(HttpServletRequest request) {
+		Pessoa pessoa = loginService.obterPessoaPorDados(
+				(Pessoa) request.getSession().getAttribute("pessoa"));
+		if (!votoService.jaVotou(pessoa)) {
+			return null;
+		}
+		ByteArrayInputStream bis = votoService.gerarPdf(pessoa);
+
+        var headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
+
+        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+                .body(new InputStreamResource(bis));
 	}
 }
