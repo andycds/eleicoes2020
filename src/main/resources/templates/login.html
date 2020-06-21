@@ -9,6 +9,8 @@
 		<form class="form-signin" method="post" th:object="${pessoa}" th:action="@{/fazerLogin}">
 			<img class="mb-4" src="/public/images/vote.png" alt="voto" width="72" height="72">
 			<h1 class="h3 mb-3 font-weight-normal">Login Eleição 2020</h1>
+			<div th:if="${param.senha}" class="alert alert-danger">Documento ou senha inválidos.</div>
+			<div th:if="${param.prazo}" class="alert alert-error">Eleição fora do período.</div>
 			<label for="documento" class="sr-only">Documento</label>
 			<input id="documento" type="text" class="form-control" placeholder="Documento" th:field="*{documento}" required autofocus/>
 			<label for="password" class="sr-only">Documento</label>

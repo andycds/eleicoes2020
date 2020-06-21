@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.pro.software.eleicoes2020.model.Pessoa;
+import br.pro.software.eleicoes2020.repository.EleicaoRepository;
 import br.pro.software.eleicoes2020.repository.PessoaRepository;
 
 @Service

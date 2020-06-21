@@ -3,14 +3,13 @@ package br.pro.software.eleicoes2020.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.pro.software.eleicoes2020.model.Pessoa;
+import br.pro.software.eleicoes2020.service.EleicaoService;
 import br.pro.software.eleicoes2020.service.LoginService;
 import br.pro.software.eleicoes2020.service.VotoService;
 
@@ -21,6 +20,9 @@ public class LoginController {
 	
 	@Autowired
 	private VotoService votoService;
+	
+	@Autowired
+	private EleicaoService eleicaoService;
 
 	@GetMapping(value = {"/login", "/"})
 	public ModelAndView login() {
@@ -36,12 +38,17 @@ public class LoginController {
 			if (votoService.jaVotou(pessoa)) {
 				return "redirect:/comprovante";
 			}
-			return "redirect:votar";
+			if (eleicaoService.noPrazo(pessoa)) {
+				return "redirect:/votar";
+			} else {
+				return "redirect:/login?prazo";
+			}
 		} else {
-			return "login";
+			return "redirect:/login?senha";
 		}
 	}
 	
+
 	@GetMapping(value = {"/logout", "/sair"})
 	public String logout(HttpServletRequest request) {
 		request.getSession().setAttribute("pessoa", null);
