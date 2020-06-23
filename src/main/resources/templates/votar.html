@@ -9,7 +9,7 @@
 <div class="container-sm">
 	<div class="card" style="margin: 10px">
 		<div class="card-header">
-			<h1>Vote</h1>
+			<h2 th:text="${eleicao.nome}">Eleição</h2>
 		</div>
 		<div class="card-body">
 			<!-- <form class="form-inline" method="POST" th:object="${aluno}" th:action="@{/alunos}" style="margin:
@@ -21,27 +21,18 @@
 					<button type="submit" class="btn btn-primary">Adicionar</button>
 				</div>
 			</form> -->
-			<h2 th:text="${eleicao.nome}">Eleição</h2>
-			<form class="form-inline" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
+			<form class="form-check" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
 				<!-- <input type="hidden" th:field="*{eleicaoId}" th:value="${eleicao.id}"/> -->
-				<table class="table">
-					<thead>
-						<tr>
-							<th>Candidatos</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="candidato : ${eleicao.candidatos}">
-						<!--<tr th:each="lon : ${candidatosId}">-->
-							<td>
-								<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" id="${candidato.id}" unchecked/>
-								 <!-- id="${candidato.id}" name="candidato" --> 
-								<label for="${candidato.id}" th:text="${candidato.nome}" >-</label>
-							</td>
-						</tr> 
-					</tbody>
-				</table>
-				<div>
+				<div class="container">
+					<div class="form-group">
+						<h4>Escolha um candidato</h4>
+					</div>
+					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatos}">
+						<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" id="${candidato.id}" style="transform: scale(1.5)" unchecked/>
+						&nbsp<label for="${candidato.id}" th:text="${candidato.nome}">-</label>
+					</div>
+				</div>
+				<div class="form-group">
 	    			<button class="btn btn-primary" type="submit">Enviar</button>
 	    			<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
 	  			</div>
