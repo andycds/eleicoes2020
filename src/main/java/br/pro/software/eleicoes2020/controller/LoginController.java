@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import br.pro.software.eleicoes2020.model.Login;
 import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.service.EleicaoService;
 import br.pro.software.eleicoes2020.service.LoginService;
@@ -27,18 +28,22 @@ public class LoginController {
 	@GetMapping(value = {"/login", "/"})
 	public ModelAndView login() {
 		ModelAndView mv = new ModelAndView("login");
-		mv.addObject("pessoa", new Pessoa());
+		mv.addObject("login", new Login());
 		return mv;
 	}
 
 	@PostMapping("/fazerLogin")
-	public String fazerLogin(HttpServletRequest request, Pessoa pessoa) {
-		if (loginService.logar(pessoa)) {			  
-			request.getSession().setAttribute("pessoa", pessoa);
-			if (votoService.jaVotou(pessoa)) {
+	public String fazerLogin(HttpServletRequest request, Login login) {
+		if (login.getDocumento().startsWith("master") && loginService.logarMaster(login)) {
+			request.getSession().setAttribute("login", login);
+			return "redirect:/painelDeControle";
+		}
+		if (loginService.logar(login)) {			  
+			request.getSession().setAttribute("login", login);
+			if (votoService.jaVotou(Pessoa.of(login))) {
 				return "redirect:/comprovante";
 			}
-			if (eleicaoService.noPrazo(pessoa)) {
+			if (eleicaoService.noPrazo(Pessoa.of(login))) {
 				return "redirect:/votar";
 			} else {
 				return "redirect:/login?prazo";
@@ -51,7 +56,7 @@ public class LoginController {
 
 	@GetMapping(value = {"/logout", "/sair"})
 	public String logout(HttpServletRequest request) {
-		request.getSession().setAttribute("pessoa", null);
+		request.getSession().setAttribute("login", null);
 		return "redirect:login";
 	}
 

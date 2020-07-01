@@ -24,4 +24,13 @@ public class Pessoa implements Serializable {
     private Boolean apto;
     @ManyToOne(cascade = CascadeType.ALL)
     private Eleicao eleicao;
+	
+    public Pessoa(String documento, String senha) {
+    	this.documento = documento;
+    	this.senha = senha;
+    }
+    
+    public static Pessoa of(Login login) {
+		return new Pessoa(login.getDocumento(), login.getSenha());
+	}
 }

@@ -1,10 +1,12 @@
 package br.pro.software.eleicoes2020.controller;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.pro.software.eleicoes2020.model.Candidato;
+import br.pro.software.eleicoes2020.model.Login;
 import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.model.Voto;
 import br.pro.software.eleicoes2020.service.CandidatoService;
@@ -33,17 +36,17 @@ import br.pro.software.eleicoes2020.transfer.Sufragio;
 public class VotoController {
 	@Autowired
 	LoginService loginService;
-	
+
 	@Autowired
 	CandidatoService candidatoService;
-	
+
 	@Autowired
 	VotoService votoService;
-	
+
 	@ModelAttribute
 	public void addAttributes(HttpServletRequest request, Model model) {
-		Pessoa pessoa = loginService.obterPessoaPorDados(
-				(Pessoa) request.getSession().getAttribute("pessoa"));
+		Login login = (Login) request.getSession().getAttribute("login");
+		Pessoa pessoa = loginService.obterPessoaPorDados(Pessoa.of(login));
 		model.addAttribute("pessoa", pessoa);
 		model.addAttribute("jaVotou", votoService.jaVotou(pessoa));
 	}
@@ -76,21 +79,38 @@ public class VotoController {
 		}
 		return "redirect:/comprovante";
 	}
-	
+
 	@RequestMapping(value = "/comprovante", method = RequestMethod.GET,
 			produces = MediaType.APPLICATION_PDF_VALUE)
-	public ResponseEntity<InputStreamResource> comprovante(HttpServletRequest request) {
-		Pessoa pessoa = loginService.obterPessoaPorDados(
-				(Pessoa) request.getSession().getAttribute("pessoa"));
-		if (!votoService.jaVotou(pessoa)) {
+	public ResponseEntity<InputStreamResource> comprovante(HttpServletResponse response,
+			@ModelAttribute("pessoa") Pessoa pessoa,
+			@ModelAttribute("jaVotou") boolean jaVotou) throws IOException {
+		if (!jaVotou) {
+			response.sendRedirect("/votar");
 			return null;
 		}
 		ByteArrayInputStream bis = votoService.gerarPdf(pessoa);
 
-        var headers = new HttpHeaders();
-        headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
+		var headers = new HttpHeaders();
+		headers.add("Content-Disposition", "inline; filename=comprovante.pdf");
 
-        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
-                .body(new InputStreamResource(bis));
+		return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+				.body(new InputStreamResource(bis));
+
 	}
+
+	//	public ResponseEntity<InputStreamResource> comprovante(HttpServletRequest request) {
+	//		Pessoa pessoa = loginService.obterPessoaPorDados(
+	//				(Pessoa) request.getSession().getAttribute("login"));
+	//		if (!votoService.jaVotou(pessoa)) {
+	//			return null;
+	//		}
+	//		ByteArrayInputStream bis = votoService.gerarPdf(pessoa);
+	//
+	//        var headers = new HttpHeaders();
+	//        headers.add("Content-Disposition", "inline; filename=citiesreport.pdf");
+	//
+	//        return ResponseEntity.ok().headers(headers).contentType(MediaType.APPLICATION_PDF)
+	//                .body(new InputStreamResource(bis));
+	//	}
 }

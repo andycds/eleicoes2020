@@ -6,7 +6,7 @@
 		<title>Eleição 2020</title>
 	</head>
 	<body class="text-center">		
-		<form class="form-signin" method="post" th:object="${pessoa}" th:action="@{/fazerLogin}">
+		<form class="form-signin" method="post" th:object="${login}" th:action="@{/fazerLogin}">
 			<img class="mb-4" src="/public/images/vote.png" alt="voto" width="72" height="72">
 			<h1 class="h3 mb-3 font-weight-normal">Login Eleição 2020</h1>
 			<div th:if="${param.senha}" class="alert alert-danger">Documento ou senha inválidos.</div>

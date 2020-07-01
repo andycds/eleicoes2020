@@ -14,7 +14,7 @@ public class LoginInterceptor extends HandlerInterceptorAdapter {
 		//pega a sessão
 		HttpSession session = request.getSession();
 		//se ainda não logou, manda para a página de login
-		if (session.getAttribute("pessoa") == null) {
+		if (session.getAttribute("login") == null) {
 			response.sendRedirect("/login");
 			return false;
 		}

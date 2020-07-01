@@ -2,20 +2,22 @@ package br.pro.software.eleicoes2020.service;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.itextpdf.text.Document;
 import com.itextpdf.text.DocumentException;
-import com.itextpdf.text.Element;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
 import com.itextpdf.text.Phrase;
-import com.itextpdf.text.pdf.PdfPCell;
-import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
 import br.pro.software.eleicoes2020.model.Pessoa;
@@ -50,7 +52,9 @@ public class VotoService {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		try {
-
+			Path path = Paths.get(ClassLoader.getSystemResource("public/images/logoiba.png").toURI());
+			Image logo = Image.getInstance(path.toAbsolutePath().toString());
+			
 			Paragraph conteudo = new Paragraph();
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph("Comprovante de Votação", fonteTitulo));
@@ -106,10 +110,11 @@ public class VotoService {
 			//			}
 			PdfWriter.getInstance(document, out);
 			document.open();
+			document.add(logo);
 			document.add(conteudo);
 			document.close();
-		} catch (DocumentException ex) {
-			//			logger.error("Error occurred: {0}", ex);
+		} catch (DocumentException | IOException | URISyntaxException e) {
+			e.printStackTrace();
 		}
 		return new ByteArrayInputStream(out.toByteArray());
 	}

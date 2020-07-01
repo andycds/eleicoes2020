@@ -1,0 +1,57 @@
+package br.pro.software.eleicoes2020.controller;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.servlet.ModelAndView;
+
+import br.pro.software.eleicoes2020.model.Eleicao;
+import br.pro.software.eleicoes2020.model.Login;
+import br.pro.software.eleicoes2020.model.Pessoa;
+import br.pro.software.eleicoes2020.repository.PessoaRepository;
+import br.pro.software.eleicoes2020.service.LoginService;
+
+@Controller
+public class MasterController {
+	@Autowired
+	LoginService loginService;
+	
+	@Autowired 
+	PessoaRepository pessoaRepo;
+	
+	@ModelAttribute
+	public void addAttributes(HttpServletRequest request, Model model) {
+		Login login = (Login) request.getSession().getAttribute("login");
+		if (loginService.logarMaster(login)) {
+			model.addAttribute("login", login);
+			model.addAttribute("eleicao", loginService.eleicaoDoMaster(login).orElse(null));
+		}
+	}
+
+	@GetMapping("/painelDeControle")
+	public ModelAndView painelDeControle(@ModelAttribute("pessoa") Login login,
+			@ModelAttribute("eleicao") Eleicao eleicao) {
+		ModelAndView mv = new ModelAndView("painelDeControle");
+		mv.addObject("eleicao", eleicao);
+		mv.addObject("pessoas", pessoaRepo.findAllByEleicaoOrderByIdAsc(eleicao));
+		return mv;
+	}
+	
+	@GetMapping("/apto/{id}")
+	public String updateUser(@PathVariable("id") long id, @ModelAttribute("login") Login login 
+	  /*,BindingResult result, Model model*/) {
+		if (login == null) {
+			return "/sair";
+		}
+		Pessoa pessoa = pessoaRepo.getOne(id);
+	    pessoa.setApto(!pessoa.getApto().booleanValue());
+		pessoaRepo.save(pessoa);
+	    return "redirect:/painelDeControle";
+	}
+
+}

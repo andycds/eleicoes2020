@@ -1,4 +1,18 @@
 insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha) values (1, 'Eleição Teste 1', 'Eleição 1', 'Obrigado por votar', now(), '2021-06-11T23:30', 'master');
+insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha) values (2, 'Eleição fora', 'Eleição fora', '', now(), now(), 'master');
 insert into candidato (id, nome, eleicao_id) values (1, 'Anderson', 1);
 insert into candidato (id, nome, eleicao_id) values (2, 'Lili', 1);
+insert into candidato (id, nome, eleicao_id) values (3, 'Lupy', 1);
 insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (1, 'admin', 'admin', 'admin', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (3, 'teste1', 'teste1', 'teste', 'andycds@gmail.com', false, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (4, 'teste2', 'teste2', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (5, 'teste3', 'teste3', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (6, 'teste4', 'teste4', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (7, 'teste5', 'teste5', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (8, 'teste6', 'teste6', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (9, 'teste7', 'teste7', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (10, 'teste8', 'teste8', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (11, 'teste9', 'teste9', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (12, 'teste10', 'teste10', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (13, 'teste11', 'teste11', 'teste', 'andycds@gmail.com', true, 1);
+insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (14, 'teste12', 'teste12', 'teste', 'andycds@gmail.com', true, 1);

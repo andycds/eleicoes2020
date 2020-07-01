@@ -3,15 +3,12 @@
 	xmlns:th="http://www.thymeleaf.org">
 <head>
 	<div th:insert="header :: padrao"></div>
-	<title>Votação</title>
+	<title>Painel De Controle</title>
 </head>
 <body>
 <div class="container-sm">
-	<div class="card" style="margin: 10px">
-		<div class="card-header">
-			<h2 th:text="${eleicao.nome}">Eleição</h2>
-		</div>
-		<div class="card-body">
+	<h2 th:text="${eleicao.nome}">Eleição</h2>
+	<div class="container">
 			<!-- <form class="form-inline" method="POST" th:object="${aluno}" th:action="@{/alunos}" style="margin:
 20px 0">	
 				<div class="form-group">
@@ -21,8 +18,22 @@
 					<button type="submit" class="btn btn-primary">Adicionar</button>
 				</div>
 			</form> -->
-			<form class="form-check" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
-				<!-- <input type="hidden" th:field="*{eleicaoId}" th:value="${eleicao.id}"/> -->
+		<div class="row" th:each="pessoa : ${pessoas}">
+			<div class="col"><span th:text="${pessoa.documento}"></span></div>
+			<div class="col"><span th:text="${pessoa.nome}"></span></div>
+			<div class="col"><span th:text="${pessoa.email}"></span></div>
+			<div class="col" th:if="${pessoa.apto}">
+				<span style="font-size: 20pt; color: darkblue">✓</span>
+				<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">desabilitar</button></a>
+			</div>
+			<div class="col" th:if="!${pessoa.apto}">	
+				<span style="font-size: 20pt; color: red">✗</span>
+				<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">habilitar</button></a>
+			</div>
+			<div class="col">Situação e-mail</div>
+			<div class="col"><button class="btn btn-info">reenviar</button></div>
+		</div>
+			<!-- <form class="form-check" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
 				<div class="container">
 					<div class="form-group">
 						<h4>Escolha um candidato</h4>
@@ -36,10 +47,10 @@
 	    			<button class="btn btn-primary" type="submit">Enviar</button>
 	    			<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
 	  			</div>
-  			</form>
-		</div>
+  			</form> -->
 	</div>
-</div>
+	<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
 <div th:replace="footer :: scripts"></div>
+</div>
 </body>
 </html>
