@@ -6,9 +6,12 @@
 	<title>Painel De Controle</title>
 </head>
 <body>
-<div class="container-sm">
-	<h2 th:text="${eleicao.nome}">Eleição</h2>
-	<div class="container">
+<div class="container">
+<div class="row">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-11"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
+		<div class="col-md-1"><a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a></div>
+	</div>
 			<!-- <form class="form-inline" method="POST" th:object="${aluno}" th:action="@{/alunos}" style="margin:
 20px 0">	
 				<div class="form-group">
@@ -18,21 +21,39 @@
 					<button type="submit" class="btn btn-primary">Adicionar</button>
 				</div>
 			</form> -->
-		<div class="row" th:each="pessoa : ${pessoas}">
-			<div class="col"><span th:text="${pessoa.documento}"></span></div>
-			<div class="col"><span th:text="${pessoa.nome}"></span></div>
-			<div class="col"><span th:text="${pessoa.email}"></span></div>
-			<div class="col" th:if="${pessoa.apto}">
-				<span style="font-size: 20pt; color: darkblue">✓</span>
-				<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">desabilitar</button></a>
-			</div>
-			<div class="col" th:if="!${pessoa.apto}">	
-				<span style="font-size: 20pt; color: red">✗</span>
-				<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">habilitar</button></a>
-			</div>
-			<div class="col">Situação e-mail</div>
-			<div class="col"><button class="btn btn-info">reenviar</button></div>
-		</div>
+	<table class="table table-hover">
+		<thead class="thead-light">
+			<tr>
+				<th scope="col">Apto</th>
+				<th scope="col">Documento</th>
+				<th scope="col">Nome</th>
+				<th scope="col">E-mail</th>
+				<th scope="col">Situação e-mail</th>
+				<th scope="col">Reenviar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pessoa : ${pessoas}">
+				<td th:if="${votoService.jaVotou(pessoa)}">
+					<span style="font-size: 20pt; color: darkblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✓</span>
+				</td>
+				<td th:if="${pessoa.apto} and !${votoService.jaVotou(pessoa)}">
+					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;apto&nbsp;&nbsp;&nbsp;</button></a>
+				</td>
+				<td th:if="!${pessoa.apto}">	
+					<!-- <span style="font-size: 20pt; color: red">✗</span> -->
+					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
+				</td>
+				<td><span th:text="${pessoa.documento}"></span></td>
+				<td><span th:text="${pessoa.nome}"></span></td>
+				<td>
+    				<input type="email" class="form-control" id="exampleInputEmail1" th:value="${pessoa.email}" disabled>
+					<!-- <span th:text="${pessoa.email}"></span> -->
+				</td>
+				<td>Situação e-mail</td>
+				<td><button class="btn btn-info">reenviar</button></td>
+			</tr>
+		</tbody>
 			<!-- <form class="form-check" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
 				<div class="container">
 					<div class="form-group">
@@ -48,9 +69,10 @@
 	    			<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
 	  			</div>
   			</form> -->
-	</div>
-	<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
-<div th:replace="footer :: scripts"></div>
+  	</table>
 </div>
+	
+	
+<div th:replace="footer :: scripts"></div>
 </body>
 </html>

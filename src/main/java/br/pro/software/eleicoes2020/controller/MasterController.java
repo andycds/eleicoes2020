@@ -15,6 +15,7 @@ import br.pro.software.eleicoes2020.model.Login;
 import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.repository.PessoaRepository;
 import br.pro.software.eleicoes2020.service.LoginService;
+import br.pro.software.eleicoes2020.service.VotoService;
 
 @Controller
 public class MasterController {
@@ -23,6 +24,9 @@ public class MasterController {
 	
 	@Autowired 
 	PessoaRepository pessoaRepo;
+	
+	@Autowired
+	VotoService votoService;
 	
 	@ModelAttribute
 	public void addAttributes(HttpServletRequest request, Model model) {
@@ -39,6 +43,7 @@ public class MasterController {
 		ModelAndView mv = new ModelAndView("painelDeControle");
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoaRepo.findAllByEleicaoOrderByIdAsc(eleicao));
+		mv.addObject("votoService", votoService);
 		return mv;
 	}
 	
