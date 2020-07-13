@@ -4,7 +4,12 @@
 <head>
 	<div th:insert="header :: padrao"></div>
 	<title>Painel De Controle</title>
-</head>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"></head>
+	<script type="text/javascript">
+    	function edit_email(id) {
+    		document.getElementById("email-"+id).disabled = false;
+		}
+</script>
 <body>
 <div class="container">
 <div class="row">&nbsp;</div>
@@ -28,6 +33,7 @@
 				<th scope="col">Documento</th>
 				<th scope="col">Nome</th>
 				<th scope="col">E-mail</th>
+				<th scope="col">Editar</th>
 				<th scope="col">Situação e-mail</th>
 				<th scope="col">Reenviar</th>
 			</tr>
@@ -47,7 +53,16 @@
 				<td><span th:text="${pessoa.documento}"></span></td>
 				<td><span th:text="${pessoa.nome}"></span></td>
 				<td>
-    				<input type="email" class="form-control" id="exampleInputEmail1" th:value="${pessoa.email}" disabled>
+					<form action="#" th:method="put" th:object="${pesssoa}" th:action="@{'/email/'+${pessoa.id}}">
+					<!-- th:field=*{email}
+					th:value="${pessoa.email}"-->
+    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:value="${pessoa.email}" disabled>
+    				</form>
+    			</td>
+    			<td>
+    				<a th:data1="${pessoa.documento}" href="#" onclick="edit_email(this.getAttribute('data1'));">
+    					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+    				</a>
 					<!-- <span th:text="${pessoa.email}"></span> -->
 				</td>
 				<td>Situação e-mail</td>

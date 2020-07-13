@@ -9,6 +9,7 @@ import br.pro.software.eleicoes2020.model.Pessoa;
 
 public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
 	public Pessoa findOneByDocumentoAndSenha(String documento, String senha);
+	public Pessoa findOneByDocumento(String documento);
 	public List<Pessoa> findAllByEleicao(Eleicao eleicao);
 	public List<Pessoa> findAllByEleicaoOrderByIdAsc(Eleicao eleicao);
 }

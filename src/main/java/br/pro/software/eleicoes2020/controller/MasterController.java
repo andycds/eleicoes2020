@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.pro.software.eleicoes2020.model.Eleicao;
@@ -44,6 +45,7 @@ public class MasterController {
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoaRepo.findAllByEleicaoOrderByIdAsc(eleicao));
 		mv.addObject("votoService", votoService);
+//		mv.addObject("pesEdit", new Pessoa());
 		return mv;
 	}
 	
@@ -57,6 +59,15 @@ public class MasterController {
 	    pessoa.setApto(!pessoa.getApto().booleanValue());
 		pessoaRepo.save(pessoa);
 	    return "redirect:/painelDeControle";
+	}
+	
+	@PostMapping("/email/{id}")
+	public String updateEmail(@PathVariable("id") long id, @ModelAttribute("login") Login login,
+			Pessoa pessoa) {
+		Pessoa p = pessoaRepo.findById(id).get();
+		p.setEmail(pessoa.getEmail());
+		pessoaRepo.save(p);
+		return "redirect:/painelDeControle";
 	}
 
 }
