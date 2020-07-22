@@ -6,8 +6,11 @@
 	<title>Painel De Controle</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"></head>
 	<script type="text/javascript">
-    	function edit_email(id) {
-    		document.getElementById("email-"+id).disabled = false;
+    	function edit_email(name) {
+    		//var el = document.getElementsByName("email-" + name)[0];
+    		var el = document.getElementById("email-" + name);
+    		el.disabled = false;
+    		el.focus();
 		}
 </script>
 <body>
@@ -50,22 +53,28 @@
 					<!-- <span style="font-size: 20pt; color: red">✗</span> -->
 					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
 				</td>
-				<td><span th:text="${pessoa.documento}"></span></td>
-				<td><span th:text="${pessoa.nome}"></span></td>
+				<td class="align-middle"><span th:text="${pessoa.documento}"></span></td>
+				<td class="align-middle"><span th:text="${pessoa.nome}"></span></td>
 				<td>
-					<form action="#" th:method="put" th:object="${pesssoa}" th:action="@{'/email/'+${pessoa.id}}">
-					<!-- th:field=*{email}
-					th:value="${pessoa.email}"-->
-    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:value="${pessoa.email}" disabled>
+					<!-- th:object="${pesssoa}" -->
+					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/email/'+${pessoa.id}}">
+					<!-- th:field="*{email}"
+					or
+					th:id
+					th:value="${pessoa.email}"
+					th:name
+					th:data1="'email-'+${pessoa.documento}"-->
+    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:name="email" 
+    							th:value="${pessoa.email}" disabled>
     				</form>
     			</td>
-    			<td>
+    			<td class="align-middle">
     				<a th:data1="${pessoa.documento}" href="#" onclick="edit_email(this.getAttribute('data1'));">
-    					<i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+    					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
     				</a>
 					<!-- <span th:text="${pessoa.email}"></span> -->
 				</td>
-				<td>Situação e-mail</td>
+				<td class="align-middle">Situação e-mail</td>
 				<td><button class="btn btn-info">reenviar</button></td>
 			</tr>
 		</tbody>

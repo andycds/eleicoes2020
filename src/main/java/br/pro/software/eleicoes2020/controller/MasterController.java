@@ -45,7 +45,7 @@ public class MasterController {
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoaRepo.findAllByEleicaoOrderByIdAsc(eleicao));
 		mv.addObject("votoService", votoService);
-//		mv.addObject("pesEdit", new Pessoa());
+		mv.addObject("pesEdit", new Pessoa());
 		return mv;
 	}
 	
