@@ -12,7 +12,7 @@ import com.sendgrid.helpers.mail.objects.Email;
 
 import br.pro.software.eleicoes2020.model.Pessoa;
 
-public class EmailService {
+public class EmailHelper {
 
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@eleicoesiba2020.com.br");

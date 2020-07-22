@@ -15,6 +15,7 @@ import br.pro.software.eleicoes2020.model.Eleicao;
 import br.pro.software.eleicoes2020.model.Login;
 import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.repository.PessoaRepository;
+import br.pro.software.eleicoes2020.service.EmailHelper;
 import br.pro.software.eleicoes2020.service.LoginService;
 import br.pro.software.eleicoes2020.service.VotoService;
 
@@ -70,4 +71,11 @@ public class MasterController {
 		return "redirect:/painelDeControle";
 	}
 
+	@GetMapping("/sendEmail/{id}")
+	public String sendEmail(@PathVariable("id") long id, @ModelAttribute("login") Login login,
+			Pessoa pessoa) {
+		Pessoa p = pessoaRepo.findById(id).get();
+		EmailHelper.send(p);
+		return "redirect:/painelDeControle";
+	}
 }
