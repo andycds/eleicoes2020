@@ -13,14 +13,14 @@ import com.sendgrid.helpers.mail.objects.Email;
 import br.pro.software.eleicoes2020.model.Pessoa;
 
 public class EmailHelper {
-
+	
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@eleicoesiba2020.com.br");
 		String subject = "Login e senha da " + pessoa.getEleicao().getNome();
 		Email to = new Email(pessoa.getEmail());
 		Content content = new Content("text/plain", conteudo(pessoa));
 		Mail mail = new Mail(from, subject, to, content);
-		SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
+		SendGrid sg = new SendGrid(System.getenv("SG_API_KN"));
 		Request request = new Request();
 		try {
 			request.setMethod(Method.POST);
