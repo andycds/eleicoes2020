@@ -17,6 +17,7 @@ import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.repository.PessoaRepository;
 import br.pro.software.eleicoes2020.service.EmailHelper;
 import br.pro.software.eleicoes2020.service.LoginService;
+import br.pro.software.eleicoes2020.service.SMSHelper;
 import br.pro.software.eleicoes2020.service.VotoService;
 
 @Controller
@@ -70,12 +71,29 @@ public class MasterController {
 		pessoaRepo.save(p);
 		return "redirect:/painelDeControle";
 	}
+	
+	@PostMapping("/celular/{id}")
+	public String updateCelular(@PathVariable("id") long id, @ModelAttribute("login") Login login,
+			Pessoa pessoa) {
+		Pessoa p = pessoaRepo.findById(id).get();
+		p.setCelular(pessoa.getCelular());
+		pessoaRepo.save(p);
+		return "redirect:/painelDeControle";
+	}
 
 	@GetMapping("/sendEmail/{id}")
 	public String sendEmail(@PathVariable("id") long id, @ModelAttribute("login") Login login,
 			Pessoa pessoa) {
 		Pessoa p = pessoaRepo.findById(id).get();
 		EmailHelper.send(p);
+		return "redirect:/painelDeControle";
+	}
+	
+	@GetMapping("/sendSMS/{id}")
+	public String sendSMS(@PathVariable("id") long id, @ModelAttribute("login") Login login,
+			Pessoa pessoa) {
+		Pessoa p = pessoaRepo.findById(id).get();
+		SMSHelper.send(p);
 		return "redirect:/painelDeControle";
 	}
 }

@@ -21,6 +21,7 @@ public class Pessoa implements Serializable {
     private String documento;
     private String senha;
     private String email;
+    private String celular;
     private Boolean apto;
     @ManyToOne(cascade = CascadeType.ALL)
     private Eleicao eleicao;

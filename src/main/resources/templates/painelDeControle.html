@@ -11,10 +11,15 @@
     		var el = document.getElementById("email-" + name);
     		el.disabled = false;
     		el.focus();
+		};
+		function edit_celular(name) {
+			var el = document.getElementById("celular-" + name);
+			el.disabled = false;
+			el.focus();
 		}
 </script>
 <body>
-<div class="container">
+<div class="container-fluid">
 <div class="row">&nbsp;</div>
 	<div class="row">
 		<div class="col-md-11"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
@@ -39,6 +44,9 @@
 				<th scope="col">Editar</th>
 				<th scope="col">Situação e-mail</th>
 				<th scope="col">Reenviar</th>
+				<th scope="col">Celular</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Enviar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -76,6 +84,18 @@
 				</td>
 				<td class="align-middle">Situação e-mail</td>
 				<td><a th:href="@{'/sendEmail/'+${pessoa.id}}" ><button class="btn btn-info">reenviar</button></a></td>
+				<td>
+					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/celular/'+${pessoa.id}}">
+    					<input type="number" class="form-control" th:id="'celular-'+${pessoa.documento}" th:name="celular" 
+    							th:value="${pessoa.celular}" disabled>
+    				</form>
+    			</td>
+    			<td class="align-middle">
+    				<a th:data1="${pessoa.documento}" href="#" onclick="edit_celular(this.getAttribute('data1'));">
+    					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
+    				</a>
+				</td>
+    			<td><a th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info">enviar</button></a></td>
 			</tr>
 		</tbody>
 			<!-- <form class="form-check" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
