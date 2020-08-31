@@ -20,5 +20,4 @@ public class EleicaoService {
 		return eleicao.getInicio().isBefore(agora) &&
 				agora.isBefore(eleicao.getFim());
 	}
-	
 }

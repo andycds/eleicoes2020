@@ -40,6 +40,10 @@ public class VotoService {
 	public boolean jaVotou(Pessoa pessoa) {
 		return votoRepo.existsByPessoaId(pessoa.getId());
 	}
+	
+	public boolean podeVotar(Pessoa pessoa) {
+		return pessoa.getApto() && !votoRepo.existsByPessoaId(pessoa.getId());
+	}
 
 	public ByteArrayInputStream gerarPdf(Pessoa pessoa) {
 		Document document = new Document();

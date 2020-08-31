@@ -3,6 +3,7 @@ package br.pro.software.eleicoes2020.model;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,4 +29,7 @@ public class Eleicao implements Serializable {
 	@OneToMany(mappedBy = "eleicao")
 	private List<Candidato> candidatos;
 	
+	public List<Candidato> candidatosPorCargo(Integer cargo) {
+		return candidatos.stream().filter(c -> c.getCargo().equals(cargo)).collect(Collectors.toList());
+	}
 }

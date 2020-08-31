@@ -21,6 +21,7 @@ public class Candidato implements Serializable {
 	@ManyToOne
 	@JoinColumn(name = "eleicao_id")
     private Eleicao eleicao;
+	private Integer cargo; //TODO: Criar Cargo
 	private transient Boolean selecionado;
 
 	@Override

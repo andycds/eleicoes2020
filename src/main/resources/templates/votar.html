@@ -4,6 +4,38 @@
 <head>
 	<div th:insert="header :: padrao"></div>
 	<title>Votação</title>
+	<script type="text/javascript">
+	function reset(ini) {
+		for (i = ini; i <= 23; i++) {
+			var el = document.getElementById(i);
+			el.checked = false;
+		}
+	}
+	function contagem2() {
+		var count = 0;
+		for (i = 3; i <= 23; i++) {
+			var el = document.getElementById(i);
+			if (el.checked) {
+				count++;
+			}
+		}
+		return count;
+	}
+	function validate(id) {
+		if (id == 1) {
+			document.getElementById(2).checked = false;
+		}
+		if (id == 2) {
+			document.getElementById(1).checked = false;
+		}
+		if (contagem2() > 6) {
+			reset(3);
+		}
+	}
+	window.addEventListener('load', function () {
+		  reset(1);
+	});
+	</script>
 </head>
 <body>
 <div class="container-sm">
@@ -25,11 +57,24 @@
 				<!-- <input type="hidden" th:field="*{eleicaoId}" th:value="${eleicao.id}"/> -->
 				<div class="container">
 					<div class="form-group">
-						<h4>Escolha um candidato</h4>
+						<h4>Escolha uma chapa para presidente / vice-presidente:</h4>
 					</div>
-					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatos}">
-						<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" style="transform: scale(1.5)" unchecked/>
-						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}">-</label>
+					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatosPorCargo(1)}">
+						<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" 
+						th:data1="${candidato.id}" onclick="validate(this.getAttribute('data1'));" style="transform: scale(1.5)" unchecked/>
+						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="color: darkslategrey">-</label>
+					</div>
+				</div>
+				<div>&nbsp;</div>
+				<hr/>
+				<div class="container">
+					<div class="form-group">
+						<h4>Escolha até 6 diretores:</h4>
+					</div>
+					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatosPorCargo(2)}">
+						<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" 
+						th:data1="${candidato.id}" onclick="validate(this.getAttribute('data1'));" style="transform: scale(1.5)" unchecked/>
+						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="color: darkslategrey">-</label>
 					</div>
 				</div>
 				<div class="form-group">
