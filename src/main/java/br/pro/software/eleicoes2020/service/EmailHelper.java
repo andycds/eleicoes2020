@@ -20,7 +20,7 @@ public class EmailHelper {
 
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@eleicoesiba2020.com.br");
-		String subject = "Login e senha da " + pessoa.getEleicao().getNome();
+		String subject = "Login e senha " + pessoa.getEleicao().getNome();
 		Email to = new Email(pessoa.getEmail());
 		Content content = new Content("text/plain", conteudo(pessoa));
 		Mail mail = new Mail(from, subject, to, content);
