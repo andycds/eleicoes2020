@@ -82,7 +82,6 @@ public class VotoService {
 			//			table.setWidthPercentage(60);
 			//			table.setWidths(new int[]{1, 3, 3});
 			//
-			//
 			//			PdfPCell hcell;
 			//			hcell = new PdfPCell(new Phrase("Id", headFont));
 			//			hcell.setHorizontalAlignment(Element.ALIGN_CENTER);
