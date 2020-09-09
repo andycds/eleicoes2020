@@ -62,7 +62,8 @@ public class VotoService {
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		try {
-			Path path = Paths.get(ClassLoader.getSystemResource("public/images/logoiba.png").toURI());
+			
+			Path path = Paths.get(getClass().getClassLoader().getResource("public/images/logoiba.png").toURI());
 			Image logo = Image.getInstance(path.toAbsolutePath().toString());
 
 			Paragraph conteudo = new Paragraph();
