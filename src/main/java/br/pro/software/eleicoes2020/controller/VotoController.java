@@ -79,8 +79,23 @@ public class VotoController {
 //			Candidato candidato = candidatoService.obter(candidatoId); 
 //			votoService.salvar(new Voto(pessoa, candidato, pessoa.getEleicao()));
 //		}
-		votoService.salvar(new Voto(pessoa, sufragio.getCandidatosId().toArray(Long[]::new), pessoa.getEleicao()));
-		return "redirect:/comprovante";
+		if (verificarCandidatosEscolhidos(sufragio.getCandidatosId())) {
+			votoService.salvar(new Voto(pessoa, sufragio.getCandidatosId().toArray(Long[]::new), pessoa.getEleicao()));
+			return "redirect:/comprovante";
+		}
+		return "redirect:/votar";
+	}
+
+	private boolean verificarCandidatosEscolhidos(List<Long> candidatosId) {
+		if (candidatosId.contains(1L) && candidatosId.contains(2L)) {
+			return false;
+		}
+		if (candidatosId.contains(1L) || candidatosId.contains(2L)) {
+			if (candidatosId.size() >= 7 && candidatosId.size() <= 13) {
+				return true;
+			}
+		}
+		return false;
 	}
 
 	@RequestMapping(value = "/comprovante", method = RequestMethod.GET,
