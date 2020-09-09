@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.time.ZonedDateTime;
@@ -49,7 +50,7 @@ public class VotoService {
 		return pessoa.getApto() && !votoRepo.existsByPessoaId(pessoa.getId());
 	}
 
-	public ByteArrayInputStream gerarPdf(Pessoa pessoa) {
+	public ByteArrayInputStream gerarPdf(Pessoa pessoa, String url) {
 		List<Voto> votos = votoRepo.findAllByPessoaId(pessoa.getId());
 		Optional<Voto> voto = votos.stream().sorted((v1, v2) -> v1.getCriado().compareTo(v2.getCriado())).findFirst();
 		Document document = new Document();
@@ -63,9 +64,7 @@ public class VotoService {
 
 		try {
 			
-			Path path = Paths.get(getClass().getClassLoader().getResource("public/images/logoiba.png").toURI());
-			Image logo = Image.getInstance(path.toAbsolutePath().toString());
-
+			Image logo = Image.getInstance(new URL(url + "/public/images/logoiba.png"));
 			Paragraph conteudo = new Paragraph();
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph("Comprovante de Votação", fonteTitulo));
@@ -130,7 +129,7 @@ public class VotoService {
 				document.add(codeQrImage);
 			}
 			document.close();
-		} catch (DocumentException | IOException | URISyntaxException e) {
+		} catch (DocumentException | IOException e) {
 			e.printStackTrace();
 		}
 		return new ByteArrayInputStream(out.toByteArray());
