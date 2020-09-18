@@ -42,12 +42,34 @@ public class MasterController {
 		}
 	}
 
-	@GetMapping("/painelDeControle")
+	@GetMapping("/painelDeControleLento")
 	public ModelAndView painelDeControle(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
 		ModelAndView mv = new ModelAndView("painelDeControle");
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoaRepo.findAllByEleicaoOrderByIdAsc(eleicao));
+		mv.addObject("votoService", votoService);
+		mv.addObject("pesEdit", new Pessoa());
+		return mv;
+	}
+
+	@GetMapping("/painelDeControleApto")
+	public ModelAndView painelDeControleApto(@ModelAttribute("pessoa") Login login,
+			@ModelAttribute("eleicao") Eleicao eleicao) {
+		ModelAndView mv = new ModelAndView("painelDeControle");
+		mv.addObject("eleicao", eleicao);
+		mv.addObject("pessoas", pessoaRepo.findAllByApto(true));
+		mv.addObject("votoService", votoService);
+		mv.addObject("pesEdit", new Pessoa());
+		return mv;
+	}
+
+	@GetMapping("/painelDeControleNaoApto")
+	public ModelAndView painelDeControleNaoApto(@ModelAttribute("pessoa") Login login,
+			@ModelAttribute("eleicao") Eleicao eleicao) {
+		ModelAndView mv = new ModelAndView("painelDeControle");
+		mv.addObject("eleicao", eleicao);
+		mv.addObject("pessoas", pessoaRepo.findAllByApto(false));
 		mv.addObject("votoService", votoService);
 		mv.addObject("pesEdit", new Pessoa());
 		return mv;
@@ -62,7 +84,7 @@ public class MasterController {
 		Pessoa pessoa = pessoaRepo.getOne(id);
 	    pessoa.setApto(!pessoa.getApto().booleanValue());
 		pessoaRepo.save(pessoa);
-	    return "redirect:/painelDeControle";
+	    return "redirect:/painelDeControleApto";
 	}
 	
 	@PostMapping("/email/{id}")
@@ -71,7 +93,8 @@ public class MasterController {
 		Pessoa p = pessoaRepo.findById(id).get();
 		p.setEmail(pessoa.getEmail());
 		pessoaRepo.save(p);
-		return "redirect:/painelDeControle";
+		EmailHelper.send(p);
+		return "redirect:/painelDeControleApto";
 	}
 	
 	@PostMapping("/celular/{id}")
@@ -80,7 +103,7 @@ public class MasterController {
 		Pessoa p = pessoaRepo.findById(id).get();
 		p.setCelular(pessoa.getCelular());
 		pessoaRepo.save(p);
-		return "redirect:/painelDeControle";
+		return "redirect:/painelDeControleApto";
 	}
 
 	@GetMapping("/sendEmail/{id}")
@@ -88,7 +111,7 @@ public class MasterController {
 			Pessoa pessoa) {
 		Pessoa p = pessoaRepo.findById(id).get();
 		EmailHelper.send(p);
-		return "redirect:/painelDeControle";
+		return "redirect:/painelDeControleApto";
 	}
 	
 	@GetMapping("/sendAllEmail")
@@ -99,7 +122,7 @@ public class MasterController {
 				EmailHelper.send(p);
 			}
 		});
-		return "redirect:/painelDeControle";
+		return "redirect:/painelDeControleApto";
 	}
 	
 	@GetMapping("/sendSMS/{id}")
@@ -107,6 +130,6 @@ public class MasterController {
 			Pessoa pessoa) {
 		Pessoa p = pessoaRepo.findById(id).get();
 		SMSHelper.send(p);
-		return "redirect:/painelDeControle";
+		return "redirect:/painelDeControleApto";
 	}
 }

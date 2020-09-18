@@ -22,18 +22,11 @@
 <div class="container-fluid">
 <div class="row">&nbsp;</div>
 	<div class="row">
-		<div class="col-md-11"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
+		<div class="col-md-9"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
+		<div class="col-md-1"><a href="/painelDeControleApto"><button class="btn btn-primary" type="button">Apto</button></a></div>
+		<div class="col-md-1"><a href="/painelDeControleNaoApto"><button class="btn btn-secondary" type="button">Não Apto</button></a></div>
 		<div class="col-md-1"><a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a></div>
 	</div>
-			<!-- <form class="form-inline" method="POST" th:object="${aluno}" th:action="@{/alunos}" style="margin:
-20px 0">	
-				<div class="form-group">
-					<input type="text" class="form-control" placeholder="Nome" th:field="*{nome}"/>
-					<input type="text" class="form-control" placeholder="Nota 1" th:field="*{nota1}"/>
-					<input type="text" class="form-control" placeholder="Nota 2" th:field="*{nota2}"/>
-					<button type="submit" class="btn btn-primary">Adicionar</button>
-				</div>
-			</form> -->
 	<table class="table table-hover">
 		<thead class="thead-light">
 			<tr>
@@ -58,73 +51,42 @@
 					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;apto&nbsp;&nbsp;&nbsp;</button></a>
 				</td>
 				<td th:if="!${pessoa.apto}">	
-					<!-- <span style="font-size: 20pt; color: red">✗</span> -->
 					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
 				</td>
 				<td class="align-middle"><span th:text="${pessoa.documento}"></span></td>
 				<td class="align-middle"><span th:text="${pessoa.nome}"></span></td>
-				
-				<td th:if="${votoService.podeVotar(pessoa)}" class="align-middle">???</td>
+				<td th:if="${votoService.podeVotar(pessoa)}" class="align-middle"></td>
 				<td th:if="!${votoService.podeVotar(pessoa)}" class="align-middle"></td>
 				<td>
-					<!-- th:object="${pesssoa}" -->
 					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/email/'+${pessoa.id}}">
-					<!-- th:field="*{email}"
-					or
-					th:id
-					th:value="${pessoa.email}"
-					th:name
-					th:data1="'email-'+${pessoa.documento}"-->
-    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:name="email" 
-    							th:value="${pessoa.email}" disabled>
+    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:name="email" th:value="${pessoa.email}" disabled>
     				</form>
     			</td>
     			<td class="align-middle">
     				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" href="#" onclick="edit_email(this.getAttribute('data1'));">
     					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
     				</a>
-					<!-- <span th:text="${pessoa.email}"></span> -->
 				</td>
-				<!-- ENVIO EMAIL -->
 				<td>
 					<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendEmail/'+${pessoa.id}}" >
 						<button class="btn btn-info">reenviar</button>
 					</a>
 				</td>
-				<!-- CEL -->
 				<td>
 					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/celular/'+${pessoa.id}}">
-    					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.documento}" th:name="celular" 
-    							th:value="${pessoa.celular}" disabled>
+    					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.documento}" th:name="celular" th:value="${pessoa.celular}" disabled>
     				</form>
     			</td>
-    			<!-- EDIÇÂO CEL -->
     			<td class="align-middle">
     				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" href="#" onclick="edit_celular(this.getAttribute('data1'));">
     					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
     				</a>
 				</td>
-				<!-- ENVIAR SMS -->
 				<td>
     				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info">enviar</button></a>
     			</td>
 			</tr>
 		</tbody>
-			<!-- <form class="form-check" action="#" method="POST" th:object="${sufragio}" th:action="@{/votando}" style="margin: 20px 0">
-				<div class="container">
-					<div class="form-group">
-						<h4>Escolha um candidato</h4>
-					</div>
-					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatos}">
-						<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" style="transform: scale(1.5)" unchecked/>
-						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}">-</label>
-					</div>
-				</div>
-				<div class="form-group">
-	    			<button class="btn btn-primary" type="submit">Enviar</button>
-	    			<a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a>
-	  			</div>
-  			</form> -->
   	</table>
 </div>
 	

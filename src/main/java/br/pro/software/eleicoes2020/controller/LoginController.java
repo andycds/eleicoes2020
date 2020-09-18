@@ -36,7 +36,7 @@ public class LoginController {
 	public String fazerLogin(HttpServletRequest request, Login login) {
 		if (login.getDocumento().startsWith("master") && loginService.logarMaster(login)) {
 			request.getSession().setAttribute("login", login);
-			return "redirect:/painelDeControle";
+			return "redirect:/painelDeControleApto";
 		}
 		if (loginService.logar(login)) {			  
 			request.getSession().setAttribute("login", login);
