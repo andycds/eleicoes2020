@@ -63,7 +63,7 @@
     				</form>
     			</td>
     			<td class="align-middle">
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" href="#" onclick="edit_email(this.getAttribute('data1'));">
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" onclick="edit_email(this.getAttribute('data1'));">
     					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
     				</a>
 				</td>
@@ -83,7 +83,7 @@
     				</a>
 				</td>
 				<td>
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info">enviar</button></a>
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info" disabled>enviar</button></a>
     			</td>
 			</tr>
 		</tbody>
