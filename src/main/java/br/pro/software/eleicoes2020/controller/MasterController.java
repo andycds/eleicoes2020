@@ -1,5 +1,7 @@
 package br.pro.software.eleicoes2020.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -86,6 +88,17 @@ public class MasterController {
 			Pessoa pessoa) {
 		Pessoa p = pessoaRepo.findById(id).get();
 		EmailHelper.send(p);
+		return "redirect:/painelDeControle";
+	}
+	
+	@GetMapping("/sendAllEmail")
+	public String sendAllEmail(@ModelAttribute("login") Login login, Pessoa pessoa) {
+		List<Pessoa> validos = pessoaRepo.findAllByApto(true);
+		validos.forEach(p -> {
+			if (p.getEmail().contains("@")) {
+				EmailHelper.send(p);
+			}
+		});
 		return "redirect:/painelDeControle";
 	}
 	

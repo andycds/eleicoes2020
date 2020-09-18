@@ -12,4 +12,5 @@ public interface PessoaRepository extends JpaRepository<Pessoa, Long>{
 	public Pessoa findOneByDocumento(String documento);
 	public List<Pessoa> findAllByEleicao(Eleicao eleicao);
 	public List<Pessoa> findAllByEleicaoOrderByIdAsc(Eleicao eleicao);
+	public List<Pessoa> findAllByApto(Boolean bool);
 }
