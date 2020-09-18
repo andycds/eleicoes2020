@@ -41,12 +41,12 @@ public class EmailHelper {
 	private static String conteudo(Pessoa pessoa) {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<HTML>");
-		sb.append(pessoa.getEleicao().getNome()).append("\n");
-		sb.append("\n");
-		sb.append("Nome: " + pessoa.getNome()).append("\n");
-		sb.append("Login/Documento: " + pessoa.getDocumento()).append("\n");
-		sb.append("Senha: " + pessoa.getSenha()).append("\n");
-		sb.append("\n");
+		sb.append(pessoa.getEleicao().getNome()).append("<br>");
+		sb.append("<br>");
+		sb.append("Nome: " + pessoa.getNome()).append("<br>");
+		sb.append("Login/Documento: " + pessoa.getDocumento()).append("<br>");
+		sb.append("Senha: " + pessoa.getSenha()).append("<br>");
+		sb.append("<br>");
 		sb.append(pessoa.getEleicao().getDescritivoEmail());
 		sb.append("</HTML>");
 		return sb.toString();
