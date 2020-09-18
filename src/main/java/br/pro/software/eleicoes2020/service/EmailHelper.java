@@ -21,8 +21,8 @@ public class EmailHelper {
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@eleicoesiba2020.com.br");
 		String subject = "Login e senha " + pessoa.getEleicao().getNome();
-		Email to = new Email(pessoa.getEmail());
-		Content content = new Content("text/plain", conteudo(pessoa));
+		Email to = new Email(pessoa.getEmail().trim());
+		Content content = new Content("text/html", conteudo(pessoa));
 		Mail mail = new Mail(from, subject, to, content);
 		//		SendGrid sg = new SendGrid(System.getenv("SG_API_KN"));
 		Request request = new Request();
@@ -40,6 +40,7 @@ public class EmailHelper {
 
 	private static String conteudo(Pessoa pessoa) {
 		StringBuilder sb = new StringBuilder();
+		sb.append("<HTML>");
 		sb.append(pessoa.getEleicao().getNome()).append("\n");
 		sb.append("\n");
 		sb.append("Nome: " + pessoa.getNome()).append("\n");
@@ -47,6 +48,7 @@ public class EmailHelper {
 		sb.append("Senha: " + pessoa.getSenha()).append("\n");
 		sb.append("\n");
 		sb.append(pessoa.getEleicao().getDescritivoEmail());
+		sb.append("</HTML>");
 		return sb.toString();
 	}
 
