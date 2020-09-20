@@ -22,7 +22,9 @@
 <div class="container-fluid">
 <div class="row">&nbsp;</div>
 	<div class="row">
-		<div class="col-md-9"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
+		<div class="col-md-7"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
+		<div class="col-md-1">Nesta lista: <i th:text="${#lists.size(pessoas)}"></i></div>
+		<div class="col-md-1"><a href="/painelDeControleVotou"><button class="btn btn-primary" type="button">Votou</button></a></div>
 		<div class="col-md-1"><a href="/painelDeControleApto"><button class="btn btn-primary" type="button">Apto</button></a></div>
 		<div class="col-md-1"><a href="/painelDeControleNaoApto"><button class="btn btn-secondary" type="button">Não Apto</button></a></div>
 		<div class="col-md-1"><a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a></div>

@@ -1,6 +1,7 @@
 package br.pro.software.eleicoes2020.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -17,6 +18,7 @@ import br.pro.software.eleicoes2020.model.Eleicao;
 import br.pro.software.eleicoes2020.model.Login;
 import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.repository.PessoaRepository;
+import br.pro.software.eleicoes2020.repository.VotoRepository;
 import br.pro.software.eleicoes2020.service.EmailHelper;
 import br.pro.software.eleicoes2020.service.LoginService;
 import br.pro.software.eleicoes2020.service.SMSHelper;
@@ -32,6 +34,9 @@ public class MasterController {
 	
 	@Autowired
 	VotoService votoService;
+	
+	@Autowired
+	VotoRepository votoRepo;
 	
 	@ModelAttribute
 	public void addAttributes(HttpServletRequest request, Model model) {
@@ -56,9 +61,24 @@ public class MasterController {
 	@GetMapping("/painelDeControleApto")
 	public ModelAndView painelDeControleApto(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
+		List<Pessoa> todas = pessoaRepo.findAllByApto(true);
+		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
+		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControle");
 		mv.addObject("eleicao", eleicao);
-		mv.addObject("pessoas", pessoaRepo.findAllByApto(true));
+		mv.addObject("pessoas", pessoas);
+		mv.addObject("votoService", votoService);
+		mv.addObject("pesEdit", new Pessoa());
+		return mv;
+	}
+	
+	@GetMapping("/painelDeControleVotou")
+	public ModelAndView painelDeControleVotou(@ModelAttribute("pessoa") Login login,
+			@ModelAttribute("eleicao") Eleicao eleicao) {
+		List<Pessoa> pessoas = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
+		ModelAndView mv = new ModelAndView("painelDeControle");
+		mv.addObject("eleicao", eleicao);
+		mv.addObject("pessoas", pessoas);
 		mv.addObject("votoService", votoService);
 		mv.addObject("pesEdit", new Pessoa());
 		return mv;
