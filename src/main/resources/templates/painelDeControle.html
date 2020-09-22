@@ -35,13 +35,10 @@
 				<th scope="col">Apto</th>
 				<th scope="col">Documento</th>
 				<th scope="col">Nome</th>
-				<th scope="col">Recebimento</th>
+				<th scope="col">E-mail</th>
 				<th scope="col">E-mail</th>
 				<th scope="col">Editar</th>
 				<th scope="col">Reenviar</th>
-				<th scope="col">Celular</th>
-				<th scope="col">Editar</th>
-				<th scope="col">Enviar</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -57,8 +54,7 @@
 				</td>
 				<td class="align-middle"><span th:text="${pessoa.documento}"></span></td>
 				<td class="align-middle"><span th:text="${pessoa.nome}"></span></td>
-				<td th:if="${votoService.podeVotar(pessoa)}" class="align-middle"></td>
-				<td th:if="!${votoService.podeVotar(pessoa)}" class="align-middle"></td>
+				<td><span th:text="${pessoa.email}"></span></td>
 				<td>
 					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/email/'+${pessoa.id}}">
     					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:name="email" th:value="${pessoa.email}" disabled>
@@ -74,19 +70,6 @@
 						<button class="btn btn-info">reenviar</button>
 					</a>
 				</td>
-				<td>
-					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/celular/'+${pessoa.id}}">
-    					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.documento}" th:name="celular" th:value="${pessoa.celular}" disabled>
-    				</form>
-    			</td>
-    			<td class="align-middle">
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" href="#" onclick="edit_celular(this.getAttribute('data1'));">
-    					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
-    				</a>
-				</td>
-				<td>
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info" disabled>enviar</button></a>
-    			</td>
 			</tr>
 		</tbody>
   	</table>

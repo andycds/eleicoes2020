@@ -1,5 +1,6 @@
 package br.pro.software.eleicoes2020.controller;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,6 +66,7 @@ public class MasterController {
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControle");
+		pessoas.sort(Comparator.comparing(Pessoa::getNome));
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoas);
 		mv.addObject("votoService", votoService);
@@ -77,6 +79,7 @@ public class MasterController {
 			@ModelAttribute("eleicao") Eleicao eleicao) {
 		List<Pessoa> pessoas = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControle");
+		pessoas.sort(Comparator.comparing(Pessoa::getNome));
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoas);
 		mv.addObject("votoService", votoService);
@@ -88,8 +91,10 @@ public class MasterController {
 	public ModelAndView painelDeControleNaoApto(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
 		ModelAndView mv = new ModelAndView("painelDeControle");
+		List<Pessoa> pessoas = pessoaRepo.findAllByApto(false);
+		pessoas.sort(Comparator.comparing(Pessoa::getNome));
 		mv.addObject("eleicao", eleicao);
-		mv.addObject("pessoas", pessoaRepo.findAllByApto(false));
+		mv.addObject("pessoas", pessoas);
 		mv.addObject("votoService", votoService);
 		mv.addObject("pesEdit", new Pessoa());
 		return mv;
