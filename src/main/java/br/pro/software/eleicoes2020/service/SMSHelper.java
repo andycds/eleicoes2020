@@ -16,7 +16,7 @@ public class SMSHelper {
 	
 	public static String send(Pessoa pessoa) {
 		String celular = pessoa.getCelular().trim();
-		if (celular == null || celular.length() != 11 || !celular.substring(2, 3).equals("9")) {
+		if (celular == null || celular.length() != 11 || !celular.substring(2, 3).equals("9") || !celular.matches("[0-9]+")) {
 			return "";
 		}
 		HttpResponse<String> response = Unirest.get(ENDERECO + KEY 
