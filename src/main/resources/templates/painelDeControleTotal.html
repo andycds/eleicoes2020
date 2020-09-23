@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org">
+<head>
+	<div th:insert="header :: padrao"></div>
+	<title>Painel De Controle</title>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"></head>
+	<script type="text/javascript">
+    	function edit_email(name) {
+    		//var el = document.getElementsByName("email-" + name)[0];
+    		var el = document.getElementById("email-" + name);
+    		el.disabled = false;
+    		el.focus();
+		};
+		function edit_celular(name) {
+			var el = document.getElementById("celular-" + name);
+			el.disabled = false;
+			el.focus();
+		}
+</script>
+<body>
+<div class="container-fluid">
+<div class="row">&nbsp;</div>
+	<div class="row">
+		<div class="col-md-7"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
+		<div class="col-md-1">Nesta lista: <i th:text="${#lists.size(pessoas)}"></i></div>
+		<div class="col-md-1"><a href="/painelDeControleVotou"><button class="btn btn-primary" type="button">Votou</button></a></div>
+		<div class="col-md-1"><a href="/painelDeControleApto"><button class="btn btn-primary" type="button">Apto</button></a></div>
+		<div class="col-md-1"><a href="/painelDeControleNaoApto"><button class="btn btn-secondary" type="button">Não Apto</button></a></div>
+		<div class="col-md-1"><a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a></div>
+	</div>
+	<table class="table table-hover">
+		<thead class="thead-light">
+			<tr>
+				<th scope="col">Apto</th>
+				<th scope="col">Documento</th>
+				<th scope="col">Nome</th>
+				<th scope="col">Recebimento</th>
+				<th scope="col">E-mail</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Reenviar</th>
+				<th scope="col">Celular</th>
+				<th scope="col">Editar</th>
+				<th scope="col">Enviar</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="pessoa : ${pessoas}">
+				<td th:if="${votoService.jaVotou(pessoa)}">
+					<span style="font-size: 20pt; color: darkblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✓</span>
+				</td>
+				<td th:if="${pessoa.apto} and !${votoService.jaVotou(pessoa)}">
+					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;apto&nbsp;&nbsp;&nbsp;</button></a>
+				</td>
+				<td th:if="!${pessoa.apto}">	
+					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
+				</td>
+				<td class="align-middle"><span th:text="${pessoa.documento}"></span></td>
+				<td class="align-middle"><span th:text="${pessoa.nome}"></span></td>
+				<td th:if="${votoService.podeVotar(pessoa)}" class="align-middle"></td>
+				<td th:if="!${votoService.podeVotar(pessoa)}" class="align-middle"></td>
+				<td>
+					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/email/'+${pessoa.id}}">
+    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:name="email" th:value="${pessoa.email}" disabled>
+    				</form>
+    			</td>
+    			<td class="align-middle">
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" onclick="edit_email(this.getAttribute('data1'));">
+    					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
+    				</a>
+				</td>
+				<td>
+					<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendEmail/'+${pessoa.id}}" >
+						<button class="btn btn-info">reenviar</button>
+					</a>
+				</td>
+				<td>
+					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/celular/'+${pessoa.id}}">
+    					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.documento}" th:name="celular" th:value="${pessoa.celular}" disabled>
+    				</form>
+    			</td>
+    			<td class="align-middle">
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" href="#" onclick="edit_celular(this.getAttribute('data1'));">
+    					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
+    				</a>
+				</td>
+				<td>
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info">enviar</button></a>
+    			</td>
+			</tr>
+		</tbody>
+  	</table>
+</div>
+	
+	
+<div th:replace="footer :: scripts"></div>
+</body>
+</html>

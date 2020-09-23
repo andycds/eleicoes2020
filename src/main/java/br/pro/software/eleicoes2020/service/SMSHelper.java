@@ -10,23 +10,29 @@ import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
 
 public class SMSHelper {
+	
 	private static final String ENDERECO = "https://api.smsdev.com.br/send?key=";
 	private static final String KEY = System.getenv("SMS_KEY");
 	
 	public static String send(Pessoa pessoa) {
+		String celular = pessoa.getCelular().trim();
+		if (celular == null || celular.length() != 11 || !celular.substring(2, 3).equals("9")) {
+			return "";
+		}
 		HttpResponse<String> response = Unirest.get(ENDERECO + KEY 
-				+ "&type=9&number=" + pessoa.getCelular() + "&msg="
-				+ "Vote na eleicao IBA. www.eleicaoiba2020.com.br Usuario: " + pessoa.getDocumento()
+				+ "&type=9&number=" + celular + "&msg="
+				+ "Vote na eleicao IBA. https://www.eleicoesiba2020.com.br Usuario: " + pessoa.getDocumento()
 				+ " Senha: " + pessoa.getSenha()).asString();
 		Gson gson = new Gson();
-		Map map = gson.fromJson(response.getBody(), Map.class);
+		Map<String, String> map = gson.fromJson(response.getBody(), Map.class);
 //			{
 //			  "situacao": "OK",
 //			  "codigo": "1",
 //			  "id": "637849052",
 //			  "descricao": "MENSAGEM NA FILA"
 //			}
-		return map.get("situacao").toString();
+		String situacao = map.get("situacao");
+		String id = map.get("id"); 
+		return situacao.equals("OK") ? id : situacao;
 	}
-	
 }
