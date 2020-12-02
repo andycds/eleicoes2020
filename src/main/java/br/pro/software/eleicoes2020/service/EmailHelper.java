@@ -1,6 +1,8 @@
 package br.pro.software.eleicoes2020.service;
 
 import java.io.IOException;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -57,16 +59,33 @@ public class EmailHelper {
 		//		separador();
 //		bounces();
 //		separador();
-		System.out.println(bounceEmail("kkknaoexiste790@gmail.com"));
-		separador();
+//		System.out.println(bounceEmail(""));
+//		separador();
 		//		invalid();
 		//		separador();
-		System.out.println(invalidEmail("kkknaoexiste790@gmail.com"));
-		separador();
+//		System.out.println(invalidEmail(""));
+//		separador();
 		//		spams();
-		System.out.println(spamEmail("kkknaoexiste790@gmail.com"));
+//		System.out.println(spamEmail(""));
+//		separador();
+//		System.out.println(blockEmail(""));
+		System.out.println(checkEmail(""));
 	}
 
+	public static String checkEmail(String email) {
+//		return String.join(", ", ((bounceEmail(email)).length() > 2 ? "bounce" : ""),
+//			   ((invalidEmail(email)).length() > 2 ? "invalid" : ""),
+//			   ((spamEmail(email)).length() > 2 ? "spam" : ""),
+//			   ((blockEmail(email)).length() > 2 ? "block" : ""));
+		
+		return Stream.of((bounceEmail(email)).length() > 2 ? "bounce" : "",
+				(invalidEmail(email)).length() > 2 ? "invalid" : "",
+				(spamEmail(email)).length() > 2 ? "spam" : "",
+				(blockEmail(email)).length() > 2 ? "block" : "")
+			          .filter(s -> s != null && !s.isEmpty())
+			          .collect(Collectors.joining(","));
+	}
+	
 	public static void separador() {
 		System.out.println("\n==================================================");
 	}
@@ -95,7 +114,7 @@ public class EmailHelper {
 			Response response = sg.api(request);
 			switch (response.getStatusCode()) {
 				case HTTP_OK: return response.getBody();
-				case HTTP_NOT_FOUND: return "Não encontrado";
+				case HTTP_NOT_FOUND: return "";
 				default: 
 					return "INFORMAR DESENVOLVEDOR: " + response.getStatusCode() + response.getBody();
 			}

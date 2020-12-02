@@ -1,5 +1,5 @@
 --eleicao
-insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha, descritivo_email) values (1, 'Processo Eleitoral de 2020', 'Votação para:'||chr(10)||' - Presidente e Vice-Presidente;'||chr(10)||' - Diretores.', 'Parabéns pelo exercício do seu direito a votar.', now(), now()+ interval '4 days', '', 'Vote em https://eleicoesiba2020.com.br');
+insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha, descritivo_email) values (1, 'Processo Eleitoral de 2020', 'Votação para:'||chr(10)||' - Presidente e Vice-Presidente;'||chr(10)||' - Diretores.', 'Parabéns pelo exercício do seu direito a votar.', now(), now()+ interval '6 days', 'senhamasterconfusao', 'Vote em https://www.eleicoesiba2020.com.br');
 --candidato
 insert into candidato (id, nome, eleicao_id, cargo) values (1, 'Leticia de Oliveira Doherty / Máris C. Gosmann', 1, 1);
 insert into candidato (id, nome, eleicao_id, cargo) values (2, 'Ricardo Cicarelli de Melo / André Sablewski Grau', 1, 1);
