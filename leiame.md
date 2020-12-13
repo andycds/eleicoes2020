@@ -18,3 +18,5 @@ update pessoa set email=regexp_replace(email, '[^[:ascii:]]', '', 'g') where ema
 ## Diferença de tempo
 Banco Heroku é +3 do que aqui (conferir devido a horário de verão)
 
+## Push conres branch to Heroku
+git push heroku conres:master
