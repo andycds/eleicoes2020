@@ -2,8 +2,6 @@ package br.pro.software.eleicoes2020.model;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;

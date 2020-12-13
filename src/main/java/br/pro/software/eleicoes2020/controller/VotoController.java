@@ -60,7 +60,7 @@ public class VotoController {
 		ModelAndView mv = new ModelAndView("votar");
 		mv.addObject("eleicao", pessoa.getEleicao());
 		Sufragio sufragio = new Sufragio();
-		List<Long> candidatosId = pessoa.getEleicao().getCandidatos()
+		List<Long> candidatosId = pessoa.getEleicao().candidatosPorCargo(1)
 				.stream().map(c -> c.getId()).collect(Collectors.toList()); 
 		sufragio.setCandidatosId(candidatosId);
 		mv.addObject("sufragio", sufragio);
@@ -85,14 +85,15 @@ public class VotoController {
 	}
 
 	private boolean verificarCandidatosEscolhidos(List<Long> candidatosId) {
-		if (candidatosId.contains(1L) && candidatosId.contains(2L)) {
-			return false;
-		}
-		if (candidatosId.contains(1L) || candidatosId.contains(2L)) {
-			if (candidatosId.size() >= 7 && candidatosId.size() <= 13) {
-				return true;
-			}
-		}
+//		if (candidatosId.contains(1L) && candidatosId.contains(2L)) {
+//			return false;
+//		}
+//		if (candidatosId.contains(1L) || candidatosId.contains(2L)) {
+//			if (candidatosId.size() >= 7 && candidatosId.size() <= 13) {
+//				return true;
+//			}
+//		}
+		if (candidatosId.size() <= 3) return true;
 		return false;
 	}
 
