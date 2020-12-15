@@ -55,7 +55,7 @@ public class EmailHelper {
 	}
 	
 	private static String adicionarComQuebra(String texto) {
-		return texto.replace("\n", "<br>");
+		return texto.replace("\\n", "<br>");
 	}
 
 	public static void main(String[] args) {
