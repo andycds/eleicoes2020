@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -26,6 +27,7 @@ public class Eleicao implements Serializable {
     private ZonedDateTime inicio;
     private ZonedDateTime fim;
 	private String senha;
+	@Column(length = 500)
 	private String descritivoEmail;
 	private boolean shuffle;
 	//@OneToMany(mappedBy = "eleicao")
