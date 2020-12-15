@@ -165,7 +165,7 @@ public class MasterController {
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		pessoas.forEach(p -> {
-			if (p.getEmail().contains("@")) {
+			if (p.getEmail() != null && p.getEmail().contains("@")) {
 				EmailHelper.send(p);
 			}
 		});
