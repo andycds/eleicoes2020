@@ -94,7 +94,7 @@
 					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatosPorCargo(1)}">
 						<input ind="a" type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" 
 						th:data1="${candidato.id}" onclick="validate(this.getAttribute('data1'));" style="transform: scale(1.5)" unchecked/>
-						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="color: darkslategrey">-</label>
+						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="display:inline; color: darkslategrey">-</label>
 					</div>
 				</div>
 				<div>&nbsp;</div>
@@ -106,7 +106,7 @@
 					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatosPorCargo(2)}">
 						<input type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" 
 						th:data1="${candidato.id}" onclick="validate(this.getAttribute('data1'));" style="transform: scale(1.5)" unchecked/>
-						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="color: darkslategrey">-</label>
+						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="display:inline; color: darkslategrey">-</label>
 					</div>
 				</div>
 				<div class="form-group">
