@@ -122,7 +122,7 @@ public class VotoService {
 			document.add(logo);
 			document.add(conteudo);
 			if (voto.isPresent()) {
-				BarcodeQRCode barcodeQRCode = new BarcodeQRCode("https://eleicoesiba2020.com.br/valid/" + voto.get().getId() +
+				BarcodeQRCode barcodeQRCode = new BarcodeQRCode("https://vote.extremodev.com/valid/" + voto.get().getId() +
 						"/" + voto.get().getCriado().toEpochSecond(), 1000, 1000, null);
 				Image codeQrImage = barcodeQRCode.getImage();
 				codeQrImage.scaleAbsolute(100, 100);
