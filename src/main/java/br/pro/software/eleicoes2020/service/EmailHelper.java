@@ -18,7 +18,7 @@ public class EmailHelper {
 	private static final int HTTP_OK = 200;
 	private static final int HTTP_NOT_FOUND = 404;
 
-	private static SendGrid sg = new SendGrid(System.getenv("SG_API_KN"));
+	private static SendGrid sg = new SendGrid(System.getenv("SG_API_2021"));
 
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@extremodev.com");
