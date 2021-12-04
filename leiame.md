@@ -20,3 +20,14 @@ Banco Heroku é +3 do que aqui (conferir devido a horário de verão)
 
 ## Push conres branch to Heroku
 git push heroku conres:master
+
+## Contagem
+select count(*) from voto where candidatos_id::int[] @> array[3];
+
+## Fazer o dump do banco pós eleição
+heroku pg:backups:capture
+heroku pg:backups:download
+
+## Restaurá-lo
+ pg_restore --verbose --clean --no-acl --no-owner -h localhost -U anderson -d eleicoes2020 latest.dump.1
+ anderson
