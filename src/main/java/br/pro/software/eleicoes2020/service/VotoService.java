@@ -59,7 +59,7 @@ public class VotoService {
 		document.addSubject("guarde seu comprovante");
 		document.addKeywords("comprovante, votação");
 		document.addAuthor("Anderson Sanches");
-		document.addCreator("software.pro.br");
+		document.addCreator("extremodev.com");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		try {
@@ -67,7 +67,7 @@ public class VotoService {
 			Image logo = Image.getInstance(new URL(url + logoPorPessoa(pessoa)));
 			Paragraph conteudo = new Paragraph();
 			conteudo.add(new Paragraph(" "));
-			conteudo.add(new Paragraph("Comprovante de Votação", fonteTitulo));
+			conteudo.add(new Paragraph("Comprovante de Votação 2021", fonteTitulo));
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph(pessoa.getEleicao().getNome(), fonteTitulo));
 			conteudo.add(new Paragraph(" "));
