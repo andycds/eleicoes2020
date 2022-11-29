@@ -67,7 +67,7 @@ public class MasterController {
 	@GetMapping("/painelDeControleApto")
 	public ModelAndView painelDeControleApto(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
-		List<Pessoa> todas = pessoaRepo.findAllByApto(true);
+		List<Pessoa> todas = pessoaRepo.findAllByEleicaoAndApto(eleicao, true);
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControle");
@@ -95,7 +95,7 @@ public class MasterController {
 	@GetMapping("/painelDeControleTotal")
 	public ModelAndView painelDeControleVotouTotal(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
-		List<Pessoa> todas = pessoaRepo.findAllByApto(true);
+		List<Pessoa> todas = pessoaRepo.findAllByEleicaoAndApto(eleicao, true);
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControleTotal");
@@ -111,7 +111,7 @@ public class MasterController {
 	public ModelAndView painelDeControleNaoApto(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
 		ModelAndView mv = new ModelAndView("painelDeControle");
-		List<Pessoa> pessoas = pessoaRepo.findAllByApto(false);
+		List<Pessoa> pessoas = pessoaRepo.findAllByEleicaoAndApto(eleicao, false);
 		pessoas.sort(Comparator.comparing(Pessoa::getNome));
 		mv.addObject("eleicao", eleicao);
 		mv.addObject("pessoas", pessoas);
@@ -165,7 +165,7 @@ public class MasterController {
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		pessoas.forEach(p -> {
-			if (p.getEmail().contains("@")) {
+			if (p.getEmail() != null && p.getEmail().contains("@")) {
 				EmailHelper.send(p);
 			}
 		});

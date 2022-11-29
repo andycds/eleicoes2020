@@ -3,11 +3,7 @@ package br.pro.software.eleicoes2020.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.net.URISyntaxException;
 import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +17,6 @@ import com.itextpdf.text.FontFactory;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
 import com.itextpdf.text.Paragraph;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.BarcodeQRCode;
 import com.itextpdf.text.pdf.PdfWriter;
 
@@ -49,6 +44,11 @@ public class VotoService {
 	public boolean podeVotar(Pessoa pessoa) {
 		return pessoa.getApto() && !votoRepo.existsByPessoaId(pessoa.getId());
 	}
+	
+	private String logoPorPessoa(Pessoa pessoa) {
+		String nomeEleicao = pessoa.getEleicao().getNome();
+		return "/public/images/conre" + nomeEleicao.charAt(nomeEleicao.length() -1) + ".png";
+	}
 
 	public ByteArrayInputStream gerarPdf(Pessoa pessoa, String url) {
 		List<Voto> votos = votoRepo.findAllByPessoaId(pessoa.getId());
@@ -59,15 +59,15 @@ public class VotoService {
 		document.addSubject("guarde seu comprovante");
 		document.addKeywords("comprovante, votação");
 		document.addAuthor("Anderson Sanches");
-		document.addCreator("software.pro.br");
+		document.addCreator("extremodev.com");
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 
 		try {
 			
-			Image logo = Image.getInstance(new URL(url + "/public/images/logoiba.png"));
+			Image logo = Image.getInstance(new URL(url + logoPorPessoa(pessoa)));
 			Paragraph conteudo = new Paragraph();
 			conteudo.add(new Paragraph(" "));
-			conteudo.add(new Paragraph("Comprovante de Votação", fonteTitulo));
+			conteudo.add(new Paragraph("Comprovante de Votação 2021", fonteTitulo));
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph(pessoa.getEleicao().getNome(), fonteTitulo));
 			conteudo.add(new Paragraph(" "));
@@ -122,7 +122,7 @@ public class VotoService {
 			document.add(logo);
 			document.add(conteudo);
 			if (voto.isPresent()) {
-				BarcodeQRCode barcodeQRCode = new BarcodeQRCode("https://eleicoesiba2020.com.br/valid/" + voto.get().getId() +
+				BarcodeQRCode barcodeQRCode = new BarcodeQRCode("https://vote.extremodev.com/valid/" + voto.get().getId() +
 						"/" + voto.get().getCriado().toEpochSecond(), 1000, 1000, null);
 				Image codeQrImage = barcodeQRCode.getImage();
 				codeQrImage.scaleAbsolute(100, 100);

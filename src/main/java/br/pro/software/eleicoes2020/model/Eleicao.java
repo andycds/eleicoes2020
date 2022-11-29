@@ -2,13 +2,15 @@ package br.pro.software.eleicoes2020.model;
 
 import java.io.Serializable;
 import java.time.ZonedDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,11 +27,54 @@ public class Eleicao implements Serializable {
     private ZonedDateTime inicio;
     private ZonedDateTime fim;
 	private String senha;
+	@Column(length = 500)
 	private String descritivoEmail;
-	@OneToMany(mappedBy = "eleicao")
+	private boolean shuffle;
+	//@OneToMany(mappedBy = "eleicao")
+	@ManyToMany
 	private List<Candidato> candidatos;
 	
 	public List<Candidato> candidatosPorCargo(Integer cargo) {
-		return candidatos.stream().filter(c -> c.getCargo().equals(cargo)).collect(Collectors.toList());
+		List<Candidato> candidatosPCargo = candidatos.stream()
+				.filter(c -> c.getCargo().equals(cargo)).collect(Collectors.toList());
+		if (shuffle) {
+			Collections.shuffle(candidatosPCargo);
+		}
+		Candidato ponteiro;
+		for (int i = 0; i < candidatosPCargo.size(); i++) {
+			ponteiro = candidatosPCargo.get(i);
+			if (ponteiro.getNome().equals("Voto em Branco")) {
+				candidatosPCargo.remove(i);
+				candidatosPCargo.add(ponteiro);
+				break;
+			}
+		}
+
+		for (int i = 0; i < candidatosPCargo.size(); i++) {
+			ponteiro = candidatosPCargo.get(i);
+			if (ponteiro.getNome().equals("Voto Nulo")) {
+				candidatosPCargo.remove(i);
+				candidatosPCargo.add(ponteiro);
+				break;
+			}
+		}
+		return candidatosPCargo; 
 	}
+	
+	public Candidato candidatoBranco() {
+		Candidato c = new Candidato();
+		c.setNome("Voto em Branco");
+		c.setId(1L);
+		c.setCargo(1);
+		return c;
+	}
+	
+	public Candidato candidatoNulo() {
+		Candidato c = new Candidato();
+		c.setNome("Voto Nulo");
+		c.setId(2L);
+		c.setCargo(1);
+		return c;
+	}
+	
 }
