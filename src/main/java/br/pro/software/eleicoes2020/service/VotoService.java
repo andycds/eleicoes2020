@@ -67,7 +67,7 @@ public class VotoService {
 			Image logo = Image.getInstance(new URL(url + logoPorPessoa(pessoa)));
 			Paragraph conteudo = new Paragraph();
 			conteudo.add(new Paragraph(" "));
-			conteudo.add(new Paragraph("Comprovante de Votação 2021", fonteTitulo));
+			conteudo.add(new Paragraph("Comprovante de Votação 2022", fonteTitulo));
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph(pessoa.getEleicao().getNome(), fonteTitulo));
 			conteudo.add(new Paragraph(" "));
