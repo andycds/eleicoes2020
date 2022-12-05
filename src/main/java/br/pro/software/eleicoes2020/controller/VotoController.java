@@ -3,6 +3,7 @@ package br.pro.software.eleicoes2020.controller;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -53,10 +55,16 @@ public class VotoController {
 
 	@GetMapping("/votar")
 	public ModelAndView votar(@ModelAttribute("pessoa") Pessoa pessoa,
-			@ModelAttribute("jaVotou") boolean jaVotou) {
+			@ModelAttribute("jaVotou") boolean jaVotou, final HttpServletResponse response) {
 		if (jaVotou) {
 			return new ModelAndView( "redirect:/comprovante");
 		}
+		response.setHeader(HttpHeaders.CACHE_CONTROL,
+	            CacheControl.noCache()
+	                    .cachePrivate()
+	                    .mustRevalidate().sMaxAge(0, TimeUnit.MILLISECONDS)
+	                    .getHeaderValue());
+		response.setHeader(HttpHeaders.EXPIRES, "-1");
 		ModelAndView mv = new ModelAndView("votar");
 		mv.addObject("eleicao", pessoa.getEleicao());
 		Sufragio sufragio = new Sufragio();
