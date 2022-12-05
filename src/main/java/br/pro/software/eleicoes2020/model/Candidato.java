@@ -13,16 +13,21 @@ import lombok.NoArgsConstructor;
 
 @Entity @Data @NoArgsConstructor
 public class Candidato implements Serializable {
+
 	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue
 	private Long id;
+
 	private String nome;
 	//@ManyToOne
 	//@JoinColumn(name = "eleicao_id")
-    @ManyToMany
+	@ManyToMany
 	private List<Eleicao> eleicoes;
+
 	private Integer cargo; //TODO: Criar Cargo
+
 	private transient Boolean selecionado;
 
 	@Override
