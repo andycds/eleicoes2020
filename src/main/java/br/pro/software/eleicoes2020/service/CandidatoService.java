@@ -12,6 +12,6 @@ public class CandidatoService {
 	CandidatoRepository candidatoRepo;
 	
 	public Candidato obter(Long id) {
-		return candidatoRepo.getOne(id);
+		return candidatoRepo.getReferenceById(id);
 	}
 }

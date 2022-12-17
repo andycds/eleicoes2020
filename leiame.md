@@ -20,3 +20,6 @@ Banco Heroku é +3 do que aqui (conferir devido a horário de verão)
 
 ## Push conres branch to Heroku
 git push heroku conres:master
+
+## Contagem
+select count(candidatos_id) from voto v where 16=any(candidatos_id);

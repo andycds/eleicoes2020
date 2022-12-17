@@ -126,7 +126,7 @@ public class MasterController {
 		if (login == null) {
 			return "/sair";
 		}
-		Pessoa pessoa = pessoaRepo.getOne(id);
+		Pessoa pessoa = pessoaRepo.getReferenceById(id);
 	    pessoa.setApto(!pessoa.getApto().booleanValue());
 		pessoaRepo.save(pessoa);
 	    return "redirect:/painelDeControleApto";

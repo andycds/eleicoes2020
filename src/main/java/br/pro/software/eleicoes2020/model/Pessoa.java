@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
 import lombok.Data;
@@ -24,6 +25,7 @@ public class Pessoa implements Serializable {
     private String celular;
     private Boolean apto;
     @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "eleicao_id", nullable = false)
     private Eleicao eleicao;
 	
     public Pessoa(String documento, String senha) {

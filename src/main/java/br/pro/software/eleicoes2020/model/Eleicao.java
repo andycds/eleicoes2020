@@ -10,28 +10,41 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity @Data @NoArgsConstructor
 public class Eleicao implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue
+	@Column(name = "eleicao_id")
 	private Long id;
+	
     private String nome;
+    
     private String cabecalho;
+    
     private String rodape;
+    
     private ZonedDateTime inicio;
+    
     private ZonedDateTime fim;
-	private String senha;
-	@Column(length = 500)
+	
+    private String senha;
+	
+    @Column(length = 500)
 	private String descritivoEmail;
-	private boolean shuffle;
-	//@OneToMany(mappedBy = "eleicao")
-	@ManyToMany
+	
+    private boolean shuffle;
+	
+    @OneToMany
+    @JoinColumn(name = "eleicao_id")
 	private List<Candidato> candidatos;
 	
 	public List<Candidato> candidatosPorCargo(Integer cargo) {

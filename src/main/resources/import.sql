@@ -1,8 +1,12 @@
-insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha) values (1, 'Eleição Teste 1', 'Eleição 1', 'Obrigado por votar', now(), '2021-06-11T23:30', 'master');
-insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha) values (2, 'Eleição fora', 'Eleição fora', '', now(), now(), 'master');
-insert into candidato (id, nome, eleicao_id) values (1, 'Anderson', 1);
-insert into candidato (id, nome, eleicao_id) values (2, 'Lili', 1);
-insert into candidato (id, nome, eleicao_id) values (3, 'Lupy', 1);
+insert into eleicao (eleicao_id, nome, cabecalho, rodape, inicio, fim, senha, shuffle) values (1, 'Eleição Teste 1', 'Eleição 1', 'Obrigado por votar', now() - interval '1 day', now() + interval '1 year', 'master', true);
+insert into eleicao (eleicao_id, nome, cabecalho, rodape, inicio, fim, senha, shuffle) values (2, 'Eleição fora', 'Eleição fora', '', now(), now(), 'master', true);
+insert into candidato (id, nome, eleicao_id, cargo) values (1, 'Voto em Branco', 1, 1);
+insert into candidato (id, nome, eleicao_id, cargo) values (2, 'Voto Nulo', 1, 1);
+-- Até ID 6 são brancos e nulos, depois são os candidatos normais.
+insert into candidato (id, nome, eleicao_id, cargo) values (7, 'Anderson', 1, 1);
+insert into candidato (id, nome, eleicao_id, cargo) values (8, 'Lili', 1, 1);
+insert into candidato (id, nome, eleicao_id, cargo) values (9, 'Lupy', 1, 1);
+insert into candidato (id, nome, eleicao_id, cargo) values (10, 'Astrogildo', 1, 1);
 insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (1, 'admin', 'admin', 'admin', 'andycds@gmail.com', true, 1);
 insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (3, 'teste1', 'teste1', 'teste', 'andycds@gmail.com', false, 1);
 insert into pessoa (id, nome, documento, senha, email, apto, eleicao_id) values (4, 'teste2', 'teste2', 'teste', 'andycds@gmail.com', true, 1);

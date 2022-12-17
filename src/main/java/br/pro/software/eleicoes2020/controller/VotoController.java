@@ -4,7 +4,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import br.pro.software.eleicoes2020.model.Candidato;
 import br.pro.software.eleicoes2020.model.Login;
 import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.model.Voto;
@@ -69,7 +69,7 @@ public class VotoController {
 		mv.addObject("eleicao", pessoa.getEleicao());
 		Sufragio sufragio = new Sufragio();
 		List<Long> candidatosId = pessoa.getEleicao().candidatosPorCargo(1)
-				.stream().map(c -> c.getId()).collect(Collectors.toList()); 
+				.stream().map(c -> c.getId()).toList(); 
 		sufragio.setCandidatosId(candidatosId);
 		mv.addObject("sufragio", sufragio);
 		return mv;
@@ -93,16 +93,9 @@ public class VotoController {
 	}
 
 	private boolean verificarCandidatosEscolhidos(List<Long> candidatosId) {
-//		if (candidatosId.contains(1L) && candidatosId.contains(2L)) {
-//			return false;
-//		}
-//		if (candidatosId.contains(1L) || candidatosId.contains(2L)) {
-//			if (candidatosId.size() >= 7 && candidatosId.size() <= 13) {
-//				return true;
-//			}
-//		}
-		if (candidatosId.size() <= 3) return true;
-		return false;
+		List<String> nomes = candidatosId.stream().map(i -> candidatoService.obter(i)).map(Candidato::getNome).toList();
+		if ((nomes.contains("Voto em Branco") || nomes.contains("Voto Nulo")) && nomes.size() > 1) return false;
+		return candidatosId.size() <= 3;
 	}
 
 	@RequestMapping(value = "/comprovante", method = RequestMethod.GET,

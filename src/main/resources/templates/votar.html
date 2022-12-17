@@ -37,7 +37,7 @@
 		}
 		return count;
 	}*/
-	function validate(id) {
+	function validate(id, nome) {
 		//if (id == 1) {
 		//	document.getElementById(2).checked = false;
 		//}
@@ -48,11 +48,12 @@
 		//	reset(3);
 		//}
 		
-		if (id <= 6) {
+		
+		if (nome == 'Voto em Branco' || nome == 'Voto Nulo') {//}(id <= 6) {
 			reset();
 			document.getElementById(id).checked = true;
-		}
-		if (id > 6) {
+		} else {
+		//if (id > 6) {
 			cand[cand.length - 1].checked = false;
 			cand[cand.length - 2].checked = false;
 			//document.getElementById(1).checked = false;
@@ -60,7 +61,7 @@
 		}
 		var bt = document.getElementById("bvote");
 		bt.disabled = true;
-		if (contagem1() > 0 && contagem1()<= 3 /*&& contagem2() <= 12 && contagem1() == 1*/) {
+		if (contagem1() > 0 && contagem1() <= 3 /*&& contagem2() <= 12 && contagem1() == 1*/) {
 			bt.disabled = false;
 		}
 	}
@@ -89,12 +90,12 @@
 				<!-- <input type="hidden" th:field="*{eleicaoId}" th:value="${eleicao.id}"/> -->
 				<div class="container">
 					<div class="form-group">
-						<h4 th:if = "${eleicao.candidatosPorCargo(1).size()> 3}">Escolha até 3 candidatos:</h4>
-						<h4 th:if = "${eleicao.candidatosPorCargo(1).size()<= 3}">Escolha seu candidato:</h4>
+						<h4 th:if = "${eleicao.candidatosPorCargo(1).size()>= 3}">Escolha até 3 candidatos:</h4>
+						<h4 th:if = "${eleicao.candidatosPorCargo(1).size()< 3}">Escolha seu candidato:</h4>
 					</div>
 					<div class="form-group form-control-lg" th:each="candidato : ${eleicao.candidatosPorCargo(1)}">
 						<input ind="a" type="checkbox" th:field="*{candidatosId}" th:value="${candidato.id}" th:id="${candidato.id}" 
-						th:data1="${candidato.id}" onclick="validate(this.getAttribute('data1'));" style="transform: scale(1.5)" unchecked/>
+						th:data1="${candidato.id}" th:data2="${candidato.nome}" onclick="validate(this.getAttribute('data1'), this.getAttribute('data2'));" style="transform: scale(1.5)" unchecked/>
 						&nbsp<label th:for="${candidato.id}" th:text="${candidato.nome}" style="display:inline; color: darkslategrey">-</label>
 					</div>
 				</div>
