@@ -9,11 +9,11 @@
 		<form class="form-signin" method="post" th:object="${login}" th:action="@{/fazerLogin}">
 			<img class="mb-4" src="/public/images/vote.png" alt="voto" width="72" height="72">
 			<h1 class="h3 mb-3 font-weight-normal">Login Eleição CONRE 2023</h1>
-			<div th:if="${param.senha}" class="alert alert-danger">Documento ou senha inválidos.</div>
+			<div th:if="${param.senha}" class="alert alert-danger">Login ou senha inválidos.</div>
 			<div th:if="${param.prazo}" class="alert alert-warning">Eleição fora do período.</div>
-			<label for="documento" class="sr-only">Documento</label>
-			<input id="documento" type="text" class="form-control" placeholder="Documento" th:field="*{documento}" required autofocus/>
-			<label for="password" class="sr-only">Documento</label>
+			<label for="documento" class="sr-only">Login</label>
+			<input id="documento" type="text" class="form-control" placeholder="Login" th:field="*{documento}" required autofocus/>
+			<label for="password" class="sr-only">Senha</label>
 			<input id="password" required type="password" class="form-control" placeholder="Senha" th:field="*{senha}"/>
 			<button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
 			<p class="mt-5 mb-3 text-muted">Eleição 2023</p>
