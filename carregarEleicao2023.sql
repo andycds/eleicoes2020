@@ -2,9 +2,9 @@
 
 insert into eleicao (eleicao_id, cabecalho, descritivo_email, fim, inicio, nome, rodape, senha, shuffle) values
 (1, 'Teste Eleicao 2023', 'Seguem seus dados eleição Teste.', now() + interval '2 days', now(), 'Eleição Teste', 'Conre', 'master', false),
-(2, 'Comprovante de Votação CONRE-2', 'Seguem seus dados na eleição CONRE-2.', now() + interval '2 days', now(), 'Eleição CONRE-2', 'CONRE-2', 'master2', false),
-(3, 'Comprovante de Votação CONRE-3', 'Seguem seus dados na eleição CONRE-3.', now() + interval '2 days', now(), 'Eleição CONRE-3', 'CONRE-3', 'master3', true),
-(4, 'Comprovante de Votação CONRE-4', 'Seguem seus dados na eleição CONRE-4.', now() + interval '2 days', now(), 'Eleição CONRE-4', 'CONRE-4', 'master4', false);
+(2, '', 'Seguem seus dados na eleição CONRE-2.', now() + interval '2 days', now(), 'Eleição CONRE-2', '', 'master2', false),
+(3, '', 'Seguem seus dados na eleição CONRE-3.', now() + interval '2 days', now(), 'Eleição CONRE-3', '', 'master3', true),
+(4, '', 'Seguem seus dados na eleição CONRE-4.', now() + interval '2 days', now(), 'Eleição CONRE-4', '', 'master4', false);
 
 --insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha, descritivo_email) values (1, 'Processo Eleitoral de 2023', 'Votação para:'||chr(10)||' - Presidente e Vice-Presidente;', 'Parabéns pelo exercício do seu direito a votar.', now(), now()+ interval '2 days', 'senhamasterconfusao', 'Vote em https://vote.extremodev.com/');
 --insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha, descritivo_email) values (2, 'Processo Eleitoral de 2023', 'Votação para:'||chr(10)||' - Presidente e Vice-Presidente;', 'Parabéns pelo exercício do seu direito a votar.', now(), now()+ interval '2 days', 'senhamasterconfusao', 'Vote em https://vote.extremodev.com/');
