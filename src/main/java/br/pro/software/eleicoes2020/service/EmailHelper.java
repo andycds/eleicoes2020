@@ -44,10 +44,10 @@ public class EmailHelper {
 		StringBuilder sb = new StringBuilder();
 		sb.append("<HTML>");
 		sb.append(pessoa.getEleicao().getNome()).append("<br>");
-		sb.append("Segue seu LOGIN e SENHA para serem utilizados nos dias da VOTAÇÃO ONLINE.<br>");
+		sb.append("<br>Segue seu LOGIN e SENHA para serem utilizados nos dias da VOTAÇÃO ONLINE.<br>");
 		sb.append("<br>");
 		sb.append("Nome: " + pessoa.getNome()).append("<br>");
-		sb.append("<b>Login</b>:" + pessoa.getDocumento()).append("<br>");
+		sb.append("<b>Login</b>: " + pessoa.getDocumento()).append("<br>");
 		sb.append("<b>Senha</b>: " + pessoa.getSenha()).append("<br>");
 		sb.append("<br>");
 		sb.append(adicionarComQuebra(pessoa.getEleicao().getDescritivoEmail()));
