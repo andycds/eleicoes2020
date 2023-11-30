@@ -1,10 +1,10 @@
 --eleicao
 
 insert into eleicao (eleicao_id, cabecalho, descritivo_email, fim, inicio, nome, rodape, senha, shuffle) values
-(1, 'Teste Eleicao 2023', 'Seguem seus dados eleição Teste.', now() + interval '2 days', now(), 'Eleição Teste', 'Conre', 'master', false),
-(2, '', 'Vote em https://vote.extremodev.com a partir de 05/12 00h00 até 06/12 20h00.', now() + interval '2 days', now(), 'Eleição CONRE-2', '', 'master2', false),
-(3, '', 'Link da Urna Online: https://www.conre3.org.br/portal/eleicao2023/ - vote a partir de 05/12/23 00h00 até 06/12/23 20h00.', now() + interval '2 days', now(), 'Eleição CONRE-3', '', 'master3', true),
-(4, '', 'Vote em https://vote.extremodev.com a partir de 05/12 00h00 até 06/12 20h00.', now() + interval '2 days', now(), 'Eleição CONRE-4', '', 'master4', false);
+(1, 'Teste Eleicao 2023', 'Seguem seus dados eleição Teste.', '2023-12-06 23:00:00', '2023-12-05 02:59:59', 'Eleição Teste', 'Conre', 'master', false),
+(2, '', 'Vote em https://vote.extremodev.com a partir de 05/12 00h00 até 06/12 20h00.', '2023-12-06 23:00:00', '2023-12-05 02:59:59', 'Eleição CONRE-2', '', 'master2', false),
+(3, '', 'Link da Urna Online: https://www.conre3.org.br/portal/eleicao2023/ - vote a partir de 05/12/23 00h00 até 06/12/23 20h00.', '2023-12-06 23:00:00', '2023-12-05 02:59:59', 'Eleição CONRE-3', '', 'master3', true),
+(4, '', 'Vote em https://vote.extremodev.com a partir de 05/12 00h00 até 06/12 20h00.', '2023-12-06 23:00:00', '2023-12-05 02:59:59', 'Eleição CONRE-4', '', 'master4', false);
 
 --insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha, descritivo_email) values (1, 'Processo Eleitoral de 2023', 'Votação para:'||chr(10)||' - Presidente e Vice-Presidente;', 'Parabéns pelo exercício do seu direito a votar.', now(), now()+ interval '2 days', 'senhamasterconfusao', 'Vote em https://vote.extremodev.com/');
 --insert into eleicao (id, nome, cabecalho, rodape, inicio, fim, senha, descritivo_email) values (2, 'Processo Eleitoral de 2023', 'Votação para:'||chr(10)||' - Presidente e Vice-Presidente;', 'Parabéns pelo exercício do seu direito a votar.', now(), now()+ interval '2 days', 'senhamasterconfusao', 'Vote em https://vote.extremodev.com/');
