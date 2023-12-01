@@ -158,7 +158,23 @@ public class MasterController {
 		EmailHelper.send(p);
 		return "redirect:/painelDeControleApto";
 	}
-	
+
+	@GetMapping("/sendEmail/eleicao/{id}")
+	public String sendEmailEleicao(@PathVariable("id") long id, @ModelAttribute("login") Login login, Pessoa pessoa) {
+		List<Pessoa> todas = pessoaRepo.findAllByApto(true);
+		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
+		List<Pessoa> pessoas  = todas.stream()
+				.filter(p -> !jaVotaram.contains(p))
+				.filter(p -> p.getEleicao().getId().equals(id))
+				.toList();
+		pessoas.forEach(p -> {
+			if (p.getEmail() != null && p.getEmail().contains("@")) {
+				EmailHelper.send(p);
+			}
+		});
+		return "redirect:/painelDeControleApto";
+	}
+
 	@GetMapping("/sendAllEmail")
 	public String sendAllEmail(@ModelAttribute("login") Login login, Pessoa pessoa) {
 		List<Pessoa> todas = pessoaRepo.findAllByApto(true);
