@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 
 @Data @NoArgsConstructor @AllArgsConstructor
 public class Login {
-	private String documento;
+	private String login;
 	private String senha;
 }

@@ -9,10 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import br.pro.software.eleicoes2020.model.ConfirmacaoSMS;
@@ -28,6 +25,7 @@ import br.pro.software.eleicoes2020.service.SMSHelper;
 import br.pro.software.eleicoes2020.service.VotoService;
 
 @Controller
+@RequestMapping("/master")
 public class MasterController {
 	@Autowired
 	LoginService loginService;
@@ -129,7 +127,7 @@ public class MasterController {
 		Pessoa pessoa = pessoaRepo.getReferenceById(id);
 	    pessoa.setApto(!pessoa.getApto().booleanValue());
 		pessoaRepo.save(pessoa);
-	    return "redirect:/painelDeControleApto";
+	    return "redirect:/master/painelDeControleApto";
 	}
 	
 	@PostMapping("/email/{id}")
@@ -139,7 +137,7 @@ public class MasterController {
 		p.setEmail(pessoa.getEmail());
 		pessoaRepo.save(p);
 		EmailHelper.send(p);
-		return "redirect:/painelDeControleApto";
+		return "redirect:/master/painelDeControleApto";
 	}
 	
 	@PostMapping("/celular/{id}")
@@ -148,7 +146,7 @@ public class MasterController {
 		Pessoa p = pessoaRepo.findById(id).get();
 		p.setCelular(pessoa.getCelular());
 		pessoaRepo.save(p);
-		return "redirect:/painelDeControleTotal";
+		return "redirect:/master/painelDeControleTotal";
 	}
 
 	@GetMapping("/sendEmail/{id}")
@@ -156,7 +154,7 @@ public class MasterController {
 			Pessoa pessoa) {
 		Pessoa p = pessoaRepo.findById(id).get();
 		EmailHelper.send(p);
-		return "redirect:/painelDeControleApto";
+		return "redirect:/master/painelDeControleApto";
 	}
 
 	@GetMapping("/sendEmail/eleicao/{id}")
@@ -172,7 +170,7 @@ public class MasterController {
 				EmailHelper.send(p);
 			}
 		});
-		return "redirect:/painelDeControleApto";
+		return "redirect:/master/painelDeControleApto";
 	}
 
 	@GetMapping("/sendAllEmail")
@@ -185,7 +183,7 @@ public class MasterController {
 				EmailHelper.send(p);
 			}
 		});
-		return "redirect:/painelDeControleApto";
+		return "redirect:/master/painelDeControleApto";
 	}
 
 	
@@ -197,14 +195,14 @@ public class MasterController {
 		pessoas.forEach(p -> {
 			sendSMS(p);
 		});
-		return "redirect:/painelDeControleApto";
+		return "redirect:/master/painelDeControleApto";
 	}
 	@GetMapping("/sendSMS/{id}")
 	public String sendSMS(@PathVariable("id") long id, @ModelAttribute("login") Login login,
 			Pessoa pessoa) {
 		Pessoa p = pessoaRepo.findById(id).get();
 		sendSMS(p);
-		return "redirect:/painelDeControleTotal";
+		return "redirect:/master/painelDeControleTotal";
 	}
 	
 	private void sendSMS(Pessoa p) {

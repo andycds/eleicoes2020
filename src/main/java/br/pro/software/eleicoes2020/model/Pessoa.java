@@ -2,12 +2,7 @@ package br.pro.software.eleicoes2020.model;
 
 import java.io.Serializable;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +14,10 @@ public class Pessoa implements Serializable {
 	@GeneratedValue
 	private Long id;
 	private String nome;
-    private String documento;
+    @Column(length = 20, nullable = false)
+    private String docOrigem;
+    @Column(unique = true)
+    private String login;
     private String senha;
     private String email;
     private String celular;
@@ -28,12 +26,12 @@ public class Pessoa implements Serializable {
     @JoinColumn(name = "eleicao_id", nullable = false)
     private Eleicao eleicao;
 	
-    public Pessoa(String documento, String senha) {
-    	this.documento = documento;
+    public Pessoa(String login, String senha) {
+    	this.login = login;
     	this.senha = senha;
     }
     
     public static Pessoa of(Login login) {
-		return new Pessoa(login.getDocumento(), login.getSenha());
+		return new Pessoa(login.getLogin(), login.getSenha());
 	}
 }

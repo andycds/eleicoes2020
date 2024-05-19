@@ -1,5 +1,8 @@
 # Comandos
 
+## DocOrigem
+No campo docOrigem de `Pessoa` marque a inscrição do candidato junto ao Conre. Passe esse valor junto ao nome para eles, para identificarem quem votou. 
+
 ## Banco local
 psql eleicoes2020
 

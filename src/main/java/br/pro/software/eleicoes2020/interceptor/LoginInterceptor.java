@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import br.pro.software.eleicoes2020.model.Login;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 public class LoginInterceptor implements HandlerInterceptor {
@@ -16,6 +17,11 @@ public class LoginInterceptor implements HandlerInterceptor {
 		//se ainda não logou, manda para a página de login
 		if (session.getAttribute("login") == null) {
 			response.sendRedirect("/login");
+			return false;
+		}
+		Login logado = (Login) session.getAttribute("login");
+		if (request.getRequestURI().contains("/master/") && !logado.getLogin().startsWith("master")) {
+			response.sendRedirect("/logout");
 			return false;
 		}
 		//se já logou, deixa a requisição passar e chegar no controller

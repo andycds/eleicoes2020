@@ -24,16 +24,16 @@
 	<div class="row">
 		<div class="col-md-7"><h2 th:text="${eleicao.nome}">Eleição</h2></div>
 		<div class="col-md-1">Nesta lista: <i th:text="${#lists.size(pessoas)}"></i></div>
-		<div class="col-md-1"><a href="/painelDeControleVotou"><button class="btn btn-primary" type="button">Votou</button></a></div>
-		<div class="col-md-1"><a href="/painelDeControleApto"><button class="btn btn-primary" type="button">Apto</button></a></div>
-		<div class="col-md-1"><a href="/painelDeControleNaoApto"><button class="btn btn-secondary" type="button">Não Apto</button></a></div>
+		<div class="col-md-1"><a href="/master/painelDeControleVotou"><button class="btn btn-primary" type="button">Votou</button></a></div>
+		<div class="col-md-1"><a href="/master/painelDeControleApto"><button class="btn btn-primary" type="button">Apto</button></a></div>
+		<div class="col-md-1"><a href="/master/painelDeControleNaoApto"><button class="btn btn-secondary" type="button">Não Apto</button></a></div>
 		<div class="col-md-1"><a href="/sair"><button class="btn btn-danger" type="button">Sair</button></a></div>
 	</div>
 	<table class="table table-hover">
 		<thead class="thead-light">
 			<tr>
 				<th scope="col">Apto</th>
-				<th scope="col">Documento</th>
+				<th scope="col">Login</th>
 				<th scope="col">Nome</th>
 				<th scope="col">Recebimento</th>
 				<th scope="col">E-mail</th>
@@ -55,37 +55,37 @@
 				<td th:if="!${pessoa.apto}">	
 					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
 				</td>
-				<td class="align-middle"><span th:text="${pessoa.documento}"></span></td>
+				<td class="align-middle"><span th:text="${pessoa.login}"></span></td>
 				<td class="align-middle"><span th:text="${pessoa.nome}"></span></td>
 				<td th:if="${votoService.podeVotar(pessoa)}" class="align-middle"></td>
 				<td th:if="!${votoService.podeVotar(pessoa)}" class="align-middle"></td>
 				<td>
-					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/email/'+${pessoa.id}}">
-    					<input type="email" class="form-control" th:id="'email-'+${pessoa.documento}" th:name="email" th:value="${pessoa.email}" disabled>
+					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/master/email/'+${pessoa.id}}">
+    					<input type="email" class="form-control" th:id="'email-'+${pessoa.login}" th:name="email" th:value="${pessoa.email}" disabled>
     				</form>
     			</td>
     			<td class="align-middle">
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" onclick="edit_email(this.getAttribute('data1'));">
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.login}" onclick="edit_email(this.getAttribute('data1'));">
     					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
     				</a>
 				</td>
 				<td>
-					<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendEmail/'+${pessoa.id}}" >
+					<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/master/sendEmail/'+${pessoa.id}}" >
 						<button class="btn btn-info">reenviar</button>
 					</a>
 				</td>
 				<td>
 					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/celular/'+${pessoa.id}}">
-    					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.documento}" th:name="celular" th:value="${pessoa.celular}" disabled>
+    					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.login}" th:name="celular" th:value="${pessoa.celular}" disabled>
     				</form>
     			</td>
     			<td class="align-middle">
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.documento}" href="#" onclick="edit_celular(this.getAttribute('data1'));">
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:data1="${pessoa.login}" href="#" onclick="edit_celular(this.getAttribute('data1'));">
     					<i class="fa fa-pencil-square-o" style="font-size: 20pt; color: darkblue" aria-hidden="true"></i>
     				</a>
 				</td>
 				<td>
-    				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info">enviar</button></a>
+    				<a th:if="${votoService.podeVotar(pessoa)}" th:href="@{'/master/sendSMS/'+${pessoa.id}}" ><button class="btn btn-info">enviar</button></a>
     			</td>
 			</tr>
 		</tbody>

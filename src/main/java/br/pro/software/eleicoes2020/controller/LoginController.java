@@ -34,9 +34,9 @@ public class LoginController {
 
 	@PostMapping("/fazerLogin")
 	public String fazerLogin(HttpServletRequest request, Login login) {
-		if (login.getDocumento().startsWith("master") && loginService.logarMaster(login)) {
+		if (login.getLogin().startsWith("master") && loginService.logarMaster(login)) {
 			request.getSession().setAttribute("login", login);
-			return "redirect:/painelDeControleApto";
+			return "redirect:/master/painelDeControleApto";
 		}
 		if (loginService.logar(login)) {			  
 			request.getSession().setAttribute("login", login);

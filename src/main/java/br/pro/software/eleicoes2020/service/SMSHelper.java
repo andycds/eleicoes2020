@@ -21,7 +21,7 @@ public class SMSHelper {
 		}
 		HttpResponse<String> response = Unirest.get(ENDERECO + KEY 
 				+ "&type=9&number=" + celular + "&msg="
-				+ "Vote na eleicao Conre. https://vote.extremodev.com Documento: " + pessoa.getDocumento()
+				+ "Vote na eleicao Conre. https://vote.extremodev.com Documento: " + pessoa.getLogin()
 				+ " Senha: " + pessoa.getSenha()).asString();
 		Gson gson = new Gson();
 		Map<String, String> map = gson.fromJson(response.getBody(), Map.class);

@@ -69,7 +69,7 @@ public class VotoController {
 		mv.addObject("eleicao", pessoa.getEleicao());
 		Sufragio sufragio = new Sufragio();
 		List<Long> candidatosId = pessoa.getEleicao().candidatosPorCargo(1)
-				.stream().map(c -> c.getId()).toList(); 
+				.stream().map(Candidato::getId).toList();
 		sufragio.setCandidatosId(candidatosId);
 		mv.addObject("sufragio", sufragio);
 		return mv;

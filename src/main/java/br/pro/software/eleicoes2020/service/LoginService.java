@@ -28,8 +28,8 @@ public class LoginService {
 		if (pessoa == null) {
 			return null;
 		}
-		return pessoaRepo.findOneByDocumentoAndSenha(
-				pessoa.getDocumento(), pessoa.getSenha());
+		return pessoaRepo.findOneByLoginAndSenha(
+				pessoa.getLogin(), pessoa.getSenha());
 	}
 
 	public boolean logarMaster(Login login) {
@@ -43,7 +43,7 @@ public class LoginService {
 
 	public Optional<Eleicao> eleicaoDoMaster(Login login) { 
 		try {
-			long idEleicao = Long.parseLong(login.getDocumento().substring("master".length()));
+			long idEleicao = Long.parseLong(login.getLogin().substring("master".length()));
 			return eleicaoRepo.findById(idEleicao);
 		} catch (NumberFormatException e) {
 			return Optional.empty();

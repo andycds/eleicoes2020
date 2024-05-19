@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import br.pro.software.eleicoes2020.model.Eleicao;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -23,20 +24,26 @@ public class EmailHelper {
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@extremodev.com");
 		String subject = "Login e senha " + pessoa.getEleicao().getNome();
-		Email to = new Email(pessoa.getEmail().trim());
-		Content content = new Content("text/html", conteudo(pessoa));
-		Mail mail = new Mail(from, subject, to, content);
-		//		SendGrid sg = new SendGrid(System.getenv("SG_API_KN"));
-		Request request = new Request();
-		try {
-			request.setMethod(Method.POST);
-			request.setEndpoint("mail/send");
-			request.setBody(mail.build());
-			Response response = sg.api(request);
-			System.out.println(response.getStatusCode());
-			System.out.println(response.getHeaders());
-		} catch (IOException ex) {
+		String[] destinatarios = pessoa.getEmail().split("[,;]");
+		for (String destinatario : destinatarios) {
+			if (destinatario.trim().length() > 5) {
+				Email to = new Email(destinatario.trim());
+				Content content = new Content("text/html", conteudo(pessoa));
+				Mail mail = new Mail(from, subject, to, content);
+				System.out.println(System.getenv("SG_API_KN"));
+						//SendGrid sg = new SendGrid(System.getenv("SG_API_KN"));
+				Request request = new Request();
+				try {
+					request.setMethod(Method.POST);
+					request.setEndpoint("mail/send");
+					request.setBody(mail.build());
+					Response response = sg.api(request);
+					System.out.println(response.getStatusCode());
+					System.out.println(response.getHeaders());
+				} catch (IOException ex) {
 
+				}
+			}
 		}
 	}
 
@@ -47,7 +54,7 @@ public class EmailHelper {
 		sb.append("<br>Segue seu LOGIN e SENHA para serem utilizados nos dias da VOTAÇÃO ONLINE.<br>");
 		sb.append("<br>");
 		sb.append("Nome: " + pessoa.getNome()).append("<br>");
-		sb.append("<b>Login</b>: " + pessoa.getDocumento()).append("<br>");
+		sb.append("<b>Login</b>: " + pessoa.getLogin()).append("<br>");
 		sb.append("<b>Senha</b>: " + pessoa.getSenha()).append("<br>");
 		sb.append("<br>");
 		sb.append(adicionarComQuebra(pessoa.getEleicao().getDescritivoEmail()));
@@ -60,6 +67,23 @@ public class EmailHelper {
 	}
 
 	public static void main(String[] args) {
+		/*String t = "anderson@rassystem.com.br,andycds@gmail.com; prof.andersonsanches@ulife.com.br   ";
+		for (String s : t.split("[,;]")) {
+			if (s.trim().length() != 0) {
+				System.out.println("'" + s.trim() + "'");
+			}
+
+		}
+		Eleicao e = new Eleicao();
+		e.setNome("Eleição teste");
+		e.setDescritivoEmail("Obrigado por votar.");
+		Pessoa p = new Pessoa();
+		p.setEleicao(e);
+		p.setNome("Anderson Sanches");
+		p.setEmail(t);
+		p.setLogin("100000");
+		p.setSenha("111111");
+		send(p);*/
 		//		stats();
 		//		separador();
 //		bounces();
@@ -74,7 +98,9 @@ public class EmailHelper {
 //		System.out.println(spamEmail(""));
 //		separador();
 //		System.out.println(blockEmail(""));
-		System.out.println(checkEmail(""));
+
+
+		//System.out.println(checkEmail(""));
 	}
 
 	public static String checkEmail(String email) {

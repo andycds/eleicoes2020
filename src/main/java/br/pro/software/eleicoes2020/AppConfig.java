@@ -17,4 +17,5 @@ public class AppConfig implements WebMvcConfigurer {
 				"/webjars/**", "/bootstrap/**", "/static/vote.png", 
 				"/static/**", "/public/**", "/valid/**");
 	}
+
 }

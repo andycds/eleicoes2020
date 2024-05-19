@@ -33,3 +33,6 @@ build/
 ### Textos ###
 /antigos/
 /atual/
+
+### Enviroment ###
+.env
