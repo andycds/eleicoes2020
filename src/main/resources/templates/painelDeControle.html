@@ -47,10 +47,10 @@
 					<span style="font-size: 20pt; color: darkblue">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;✓</span>
 				</td>
 				<td th:if="${pessoa.apto} and !${votoService.jaVotou(pessoa)}">
-					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;apto&nbsp;&nbsp;&nbsp;</button></a>
+					<a th:href="@{/master/apto/{id}(id=${pessoa.id})}"><button class="btn btn-success">&nbsp;&nbsp;&nbsp;&nbsp;apto&nbsp;&nbsp;&nbsp;</button></a>
 				</td>
 				<td th:if="!${pessoa.apto}">	
-					<a th:href="@{/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
+					<a th:href="@{/master/apto/{id}(id=${pessoa.id})}"><button class="btn btn-danger">não-apto</button></a>
 				</td>
 				<td class="align-middle"><span th:text="${pessoa.login}"></span></td>
 				<td class="align-middle"><span th:text="${pessoa.nome}"></span></td>
