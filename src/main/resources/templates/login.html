@@ -8,7 +8,7 @@
 	<body class="text-center">		
 		<form class="form-signin" method="post" th:object="${login}" th:action="@{/fazerLogin}">
 			<img class="mb-4" src="/public/images/vote.png" alt="voto" width="72" height="72">
-			<h1 class="h3 mb-3 font-weight-normal">Login Eleição Extra CONR-2 2024</h1>
+			<h1 class="h3 mb-3 font-weight-normal">Login Eleição Extra CONRE-2 2024</h1>
 			<div th:if="${param.senha}" class="alert alert-danger">Login ou senha inválidos.</div>
 			<div th:if="${param.prazo}" class="alert alert-warning">Eleição fora do período.</div>
 			<label for="login" class="sr-only">Login</label>
@@ -16,7 +16,7 @@
 			<label for="password" class="sr-only">Senha</label>
 			<input id="password" required type="password" class="form-control" placeholder="Senha" th:field="*{senha}"/>
 			<button type="submit" class="btn btn-lg btn-primary btn-block">Login</button>
-			<p class="mt-5 mb-3 text-muted">Eleição 2024</p>
+			<p class="mt-5 mb-3 text-muted">Eleição gerida pelo Extremo Vote - <a href="http://extremodev.com">extremodev.com</a></p>
 		</form>
 		<div th:replace="footer :: scripts"></div>
 	</body>
