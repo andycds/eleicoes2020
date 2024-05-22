@@ -61,7 +61,7 @@
 				<td th:if="!${votoService.podeVotar(pessoa)}" class="align-middle"></td>
 				<td>
 					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/master/email/'+${pessoa.id}}">
-    					<input type="email" class="form-control" th:id="'email-'+${pessoa.login}" th:name="email" th:value="${pessoa.email}" disabled>
+    					<input type="text" class="form-control" th:id="'email-'+${pessoa.login}" th:name="email" th:value="${pessoa.email}" disabled>
     				</form>
     			</td>
     			<td class="align-middle">
