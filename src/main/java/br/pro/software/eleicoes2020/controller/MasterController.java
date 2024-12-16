@@ -186,7 +186,11 @@ public class MasterController {
 		return "redirect:/master/painelDeControleApto";
 	}
 
-	
+	@GetMapping("/teste")
+	public String teste() {
+		return "OK";
+	}
+
 	@GetMapping("/sendAllSMS")
 	public String sendAllSMS(@ModelAttribute("login") Login login, Pessoa pessoa) {
 		List<Pessoa> todas = pessoaRepo.findAllByApto(true);

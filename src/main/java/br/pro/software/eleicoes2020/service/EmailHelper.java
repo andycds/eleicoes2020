@@ -24,7 +24,7 @@ public class EmailHelper {
 	public static void send(Pessoa pessoa) {
 		Email from = new Email("no-reply@extremodev.com");
 		String subject = "Login e senha " + pessoa.getEleicao().getNome();
-		String[] destinatarios = pessoa.getEmail().split("[,;]");
+		String[] destinatarios = pessoa.getEmail().split("[,;\\s+]");
 		for (String destinatario : destinatarios) {
 			if (destinatario.trim().length() > 5) {
 				Email to = new Email(destinatario.trim());
