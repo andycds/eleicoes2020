@@ -52,7 +52,7 @@ FROM voto
 )
 SELECT number, COUNT(*)
 FROM expanded
-WHERE number BETWEEN 6 AND 12
+WHERE number BETWEEN 6 AND 25
 GROUP BY number
 ORDER BY number) TO 'resultado.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
 
@@ -63,3 +63,44 @@ ORDER BY number) TO 'resultado.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
 \copy (select * from pessoa) TO 'FTpessoa.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
 \copy (select * from voto) TO 'FTvoto.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
 \copy (select * from confirmacaosms) TO 'FTconfirmacaosms.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+
+
+
+## Listagem por candidato_id
+WITH expanded AS (
+SELECT unnest(candidatos_id) AS number
+FROM voto
+)
+SELECT eleicao_id, id, number, nome, COUNT(*)
+FROM expanded 
+ join candidato on id = number
+WHERE number BETWEEN 6 AND 25
+GROUP BY number, id, nome, eleicao_id
+ORDER BY number;
+
+## Listagem por eleicão
+WITH expanded AS (
+SELECT unnest(candidatos_id) AS number
+FROM voto
+)
+SELECT eleicao_id, nome, COUNT(*) as votos
+FROM expanded
+join candidato on id = number
+WHERE number BETWEEN 6 AND 25
+GROUP BY id, nome, eleicao_id
+ORDER BY eleicao_id, count(*) desc;
+
+## Eleitores que votaram por eleição
+\copy (select nome, doc_origem, email, celular from pessoa p join voto v on p.id = v.pessoa_id where eleicao_id = 2) TO 'VotantesConre2.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select nome, doc_origem, email, celular from pessoa p join voto v on p.id = v.pessoa_id where eleicao_id = 3) TO 'VotantesConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select nome, doc_origem, email, celular from pessoa p join voto v on p.id = v.pessoa_id where eleicao_id = 4) TO 'VotantesConre4.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+
+## Eleitores que NÃO votaram por eleição
+\copy (select nome, doc_origem, email, celular from pessoa p where p.id not in (select pessoa_id from voto) and p.eleicao_id = 2) TO 'NaoVotantesConre2.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select nome, doc_origem, email, celular from pessoa p where p.id not in (select pessoa_id from voto) and p.eleicao_id = 3) TO 'NaoVotantesConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select nome, doc_origem, email, celular from pessoa p where p.id not in (select pessoa_id from voto) and p.eleicao_id = 4) TO 'NaoVotantesConre4.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+
+## Listagem Dóris
+\copy (select * from candidato where eleicao_id = 3) TO 'DorisCandidatosConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select * from pessoa where eleicao_id = 3) TO 'DorisEleitoresConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select * from voto where eleicao_eleicao_id = 3) TO 'DorisVotosConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);

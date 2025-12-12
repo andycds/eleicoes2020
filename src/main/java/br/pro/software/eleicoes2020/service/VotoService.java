@@ -4,6 +4,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.time.Year;
 import java.util.List;
 import java.util.Optional;
 
@@ -67,7 +68,7 @@ public class VotoService {
 			Image logo = Image.getInstance(new URL(url + logoPorPessoa(pessoa)));
 			Paragraph conteudo = new Paragraph();
 			conteudo.add(new Paragraph(" "));
-			conteudo.add(new Paragraph("Comprovante de Votação 2024", fonteTitulo));
+			conteudo.add(new Paragraph("Comprovante de Votação " + Year.now().getValue(), fonteTitulo));
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph(pessoa.getEleicao().getNome(), fonteTitulo));
 			conteudo.add(new Paragraph(" "));
