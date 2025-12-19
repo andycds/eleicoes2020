@@ -3,28 +3,31 @@ package br.pro.software.eleicoes2020.model;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 
-import org.hibernate.annotations.Type;
-import org.hibernate.annotations.TypeDef;
-import org.hibernate.annotations.TypeDefs;
+//import org.hibernate.annotations.Type;
+//import org.hibernate.annotations.TypeDef;
+//import org.hibernate.annotations.TypeDefs;
 
-import com.vladmihalcea.hibernate.type.array.LongArrayType;
+//import com.vladmihalcea.hibernate.type.array.LongArrayType;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@TypeDefs({
-    @TypeDef(
-        name = "list-array",
-        typeClass = LongArrayType.class
-    )
-})
+//@TypeDefs({
+//    @TypeDef(
+//        name = "list-array",
+//        typeClass = LongArrayType.class
+//    )
+//})
 @Entity @Data @NoArgsConstructor
 public class Voto implements Serializable {
 	private static final long serialVersionUID = 1L;
@@ -37,11 +40,12 @@ public class Voto implements Serializable {
 //	private Candidato candidato;
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Eleicao eleicao;
-    @Type(type = "list-array")
+    //@Type(type = "list-array")
     @Column(
         name = "candidatos_id",
         columnDefinition = "bigint[]"
     )
+	@JdbcTypeCode(SqlTypes.ARRAY)
 	private Long[] candidatos_id;
 	private ZonedDateTime criado;
 

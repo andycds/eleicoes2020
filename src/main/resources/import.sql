@@ -1,5 +1,5 @@
-insert into eleicao (eleicao_id, nome, cabecalho, rodape, inicio, fim, senha, shuffle) values (1, 'Eleição Teste 1', 'Eleição 1', 'Obrigado por votar', now() - interval '1 day', now() + interval '1 year', 'master', true);
-insert into eleicao (eleicao_id, nome, cabecalho, rodape, inicio, fim, senha, shuffle) values (2, 'Eleição fora', 'Eleição fora', '', now(), now(), 'master', true);
+insert into eleicao (eleicao_id, nome, cabecalho, rodape, descritivo_email, inicio, fim, senha, shuffle) values (1, 'Eleição Teste 1', 'Eleição 1', 'Obrigado por votar', 'Eleições CONRE 2024', now() - interval '1 day', now() + interval '1 year', 'master', true);
+insert into eleicao (eleicao_id, nome, cabecalho, rodape, descritivo_email, inicio, fim, senha, shuffle) values (2, 'Eleição fora', 'Eleição fora', '', 'Eleições CONRE 2024', now(), now(), 'master', true);
 insert into candidato (id, nome, eleicao_id, cargo) values (1, 'Voto em Branco', 1, 1);
 insert into candidato (id, nome, eleicao_id, cargo) values (2, 'Voto Nulo', 1, 1);
 -- Até ID 6 são brancos e nulos, depois são os candidatos normais.

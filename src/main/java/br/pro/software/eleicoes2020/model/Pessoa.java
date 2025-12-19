@@ -2,7 +2,7 @@ package br.pro.software.eleicoes2020.model;
 
 import java.io.Serializable;
 
-import javax.persistence.*;
+import jakarta.persistence.*;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

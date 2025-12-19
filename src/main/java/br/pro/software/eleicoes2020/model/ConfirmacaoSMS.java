@@ -2,8 +2,8 @@ package br.pro.software.eleicoes2020.model;
 
 import java.time.ZonedDateTime;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
