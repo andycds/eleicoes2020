@@ -74,20 +74,20 @@ public class Eleicao implements Serializable {
 		return candidatosPCargo; 
 	}
 	
-	public Candidato candidatoBranco() {
-		Candidato c = new Candidato();
-		c.setNome("Voto em Branco");
-		c.setId(1L);
-		c.setCargo(1);
-		return c;
-	}
-	
-	public Candidato candidatoNulo() {
-		Candidato c = new Candidato();
-		c.setNome("Voto Nulo");
-		c.setId(2L);
-		c.setCargo(1);
-		return c;
-	}
+//	public Candidato candidatoBranco() {
+//		Candidato c = new Candidato();
+//		c.setNome("Voto em Branco");
+//		c.setId(1L);
+//		c.setCargo(1);
+//		return c;
+//	}
+//
+//	public Candidato candidatoNulo() {
+//		Candidato c = new Candidato();
+//		c.setNome("Voto Nulo");
+//		c.setId(2L);
+//		c.setCargo(1);
+//		return c;
+//	}
 	
 }
