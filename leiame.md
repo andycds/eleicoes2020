@@ -52,9 +52,11 @@ FROM voto
 )
 SELECT number, COUNT(*)
 FROM expanded
-WHERE number BETWEEN 6 AND 25
 GROUP BY number
 ORDER BY number) TO 'resultado.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+
+--WHERE number BETWEEN 6 AND 25
+
 
 ## Cópia bruta total
 
@@ -74,7 +76,7 @@ FROM voto
 SELECT eleicao_id, id, number, nome, COUNT(*)
 FROM expanded 
  join candidato on id = number
-WHERE number BETWEEN 6 AND 25
+--WHERE number BETWEEN 6 AND 25
 GROUP BY number, id, nome, eleicao_id
 ORDER BY number;
 
@@ -86,7 +88,7 @@ FROM voto
 SELECT eleicao_id, nome, COUNT(*) as votos
 FROM expanded
 join candidato on id = number
-WHERE number BETWEEN 6 AND 25
+--WHERE number BETWEEN 6 AND 25
 GROUP BY id, nome, eleicao_id
 ORDER BY eleicao_id, count(*) desc;
 

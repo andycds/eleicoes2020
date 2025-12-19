@@ -165,11 +165,7 @@ public class MasterController {
 				.filter(p -> !jaVotaram.contains(p))
 				.filter(p -> p.getEleicao().getId().equals(id))
 				.toList();
-		pessoas.forEach(p -> {
-			if (p.getEmail() != null && p.getEmail().contains("@")) {
-				EmailHelper.send(p);
-			}
-		});
+		pessoas.forEach(EmailHelper::send);
 		return "redirect:/master/painelDeControleApto";
 	}
 
@@ -178,11 +174,7 @@ public class MasterController {
 		List<Pessoa> todas = pessoaRepo.findAllByApto(true);
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
 		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
-		pessoas.forEach(p -> {
-			if (p.getEmail() != null && p.getEmail().contains("@")) {
-				EmailHelper.send(p);
-			}
-		});
+		pessoas.forEach(EmailHelper::send);
 		return "redirect:/master/painelDeControleApto";
 	}
 

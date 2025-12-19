@@ -22,6 +22,9 @@ public class EmailHelper {
 	private static SendGrid sg = new SendGrid(System.getenv("SG_API_2021"));
 
 	public static void send(Pessoa pessoa) {
+		if (!pessoa.temEmailValido()) {
+			return;
+		}
 		Email from = new Email("no-reply@extremodev.com");
 		String subject = "Login e senha " + pessoa.getEleicao().getNome();
 		String[] destinatarios = pessoa.getEmail().split("[,;\\s+]");
@@ -30,7 +33,7 @@ public class EmailHelper {
 				Email to = new Email(destinatario.trim());
 				Content content = new Content("text/html", conteudo(pessoa));
 				Mail mail = new Mail(from, subject, to, content);
-				System.out.println(System.getenv("SG_API_KN"));
+//				System.out.println(System.getenv("SG_API_KN"));
 						//SendGrid sg = new SendGrid(System.getenv("SG_API_KN"));
 				Request request = new Request();
 				try {

@@ -72,7 +72,7 @@ public class VotoService {
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph(pessoa.getEleicao().getNome(), fonteTitulo));
 			conteudo.add(new Paragraph(" "));
-			adicionarCabecalho(conteudo, pessoa.getEleicao().getCabecalho());
+			//adicionarCabecalho(conteudo, pessoa.getEleicao().getCabecalho());
 			conteudo.add(new Paragraph(" "));
 			conteudo.add(new Paragraph("Login: " + pessoa.getLogin(), fonteTexto));
 			conteudo.add(new Paragraph("Nome: " + pessoa.getNome(), fonteTexto));
