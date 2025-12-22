@@ -24,6 +24,10 @@ public class LoginService {
 		return obterPessoaPorDados(Pessoa.of(login)) != null;
 	}
 
+	public boolean apto(Login login) {
+		return obterPessoaPorDados(Pessoa.of(login)).getApto();
+	}
+
 	public Pessoa obterPessoaPorDados(Pessoa pessoa) {
 		if (pessoa == null) {
 			return null;

@@ -67,7 +67,7 @@ public class MasterController {
 			@ModelAttribute("eleicao") Eleicao eleicao) {
 		List<Pessoa> todas = pessoaRepo.findAllByEleicaoAndApto(eleicao, true);
 		List<Pessoa> jaVotaram = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
-		List<Pessoa> pessoas  = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
+		List<Pessoa> pessoas = todas.stream().filter(p -> !jaVotaram.contains(p)).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControle");
 		pessoas.sort(Comparator.comparing(Pessoa::getNome));
 		mv.addObject("eleicao", eleicao);
@@ -80,7 +80,8 @@ public class MasterController {
 	@GetMapping("/painelDeControleVotou")
 	public ModelAndView painelDeControleVotou(@ModelAttribute("pessoa") Login login,
 			@ModelAttribute("eleicao") Eleicao eleicao) {
-		List<Pessoa> pessoas = votoRepo.findAll().stream().map(v -> v.getPessoa()).collect(Collectors.toList());
+		List<Pessoa> pessoas = votoRepo.findAll().stream().filter(v -> v.getEleicao() == eleicao)
+				.map(v -> v.getPessoa()).collect(Collectors.toList());
 		ModelAndView mv = new ModelAndView("painelDeControle");
 		pessoas.sort(Comparator.comparing(Pessoa::getNome));
 		mv.addObject("eleicao", eleicao);

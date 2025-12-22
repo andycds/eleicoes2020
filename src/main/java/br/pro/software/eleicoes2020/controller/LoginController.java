@@ -44,7 +44,11 @@ public class LoginController {
 				return "redirect:/comprovante";
 			}
 			if (eleicaoService.noPrazo(Pessoa.of(login))) {
-				return "redirect:/votar";
+				if (loginService.apto(login)) {
+					return "redirect:/votar";
+				} else {
+					return "redirect:/login?naoApto";
+				}
 			} else {
 				return "redirect:/login?prazo";
 			}
