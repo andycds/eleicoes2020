@@ -8,6 +8,8 @@ import java.util.concurrent.TimeUnit;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.CacheControl;
@@ -44,6 +46,8 @@ public class VotoController {
 
 	@Autowired
 	VotoService votoService;
+
+	private static final Logger logger = LoggerFactory.getLogger(VotoController.class);
 
 	@ModelAttribute
 	public void addAttributes(HttpServletRequest request, Model model) {
@@ -87,7 +91,9 @@ public class VotoController {
 //			votoService.salvar(new Voto(pessoa, candidato, pessoa.getEleicao()));
 //		}
 		if (verificarCandidatosEscolhidos(sufragio.getCandidatosId())) {
-			votoService.salvar(new Voto(pessoa, sufragio.getCandidatosId().toArray(Long[]::new), pessoa.getEleicao(), ip));
+			Voto v = new Voto(pessoa, sufragio.getCandidatosId().toArray(Long[]::new), pessoa.getEleicao(), ip);
+			logger.warn("Voto criado: " + v.getId() + ", com ip: " + v.getIp());
+			votoService.salvar(v);
 			return "redirect:/comprovante";
 		}
 		return "redirect:/votar";
