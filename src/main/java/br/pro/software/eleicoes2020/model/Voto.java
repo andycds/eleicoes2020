@@ -48,11 +48,14 @@ public class Voto implements Serializable {
 	@JdbcTypeCode(SqlTypes.ARRAY)
 	private Long[] candidatos_id;
 	private ZonedDateTime criado;
+	@Column(length = 128)
+	private String ip;
 
-	public Voto(Pessoa pessoa, Long[] candidatos_id, Eleicao eleicao) {
+	public Voto(Pessoa pessoa, Long[] candidatos_id, Eleicao eleicao, String ip) {
 		this.pessoa = pessoa;
 		this.candidatos_id = candidatos_id;
 		this.eleicao = eleicao;
 		this.criado = ZonedDateTime.now();
+		this.ip = ip;
 	}
 }

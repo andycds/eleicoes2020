@@ -77,16 +77,17 @@ public class VotoController {
 
 	@PostMapping(value = "/votando")
 	public String votando(@ModelAttribute("pessoa") Pessoa pessoa,
-			@ModelAttribute("jaVotou") boolean jaVotou, Sufragio sufragio) {
+			@ModelAttribute("jaVotou") boolean jaVotou, HttpServletRequest request, Sufragio sufragio) {
 		if (jaVotou) {
 			return "redirect:/comprovante";
 		}
+		String ip = request.getRemoteAddr();
 //		for (Long candidatoId : sufragio.getCandidatosId()) {
 //			Candidato candidato = candidatoService.obter(candidatoId); 
 //			votoService.salvar(new Voto(pessoa, candidato, pessoa.getEleicao()));
 //		}
 		if (verificarCandidatosEscolhidos(sufragio.getCandidatosId())) {
-			votoService.salvar(new Voto(pessoa, sufragio.getCandidatosId().toArray(Long[]::new), pessoa.getEleicao()));
+			votoService.salvar(new Voto(pessoa, sufragio.getCandidatosId().toArray(Long[]::new), pessoa.getEleicao(), ip));
 			return "redirect:/comprovante";
 		}
 		return "redirect:/votar";
