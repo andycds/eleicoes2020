@@ -107,4 +107,4 @@ ORDER BY eleicao_id, count(*) desc;
 ## Listagem Dóris
 \copy (select * from candidato where eleicao_id = 3) TO 'DorisCandidatosConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
 \copy (select * from pessoa where eleicao_id = 3) TO 'DorisEleitoresConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
-\copy (select * from voto where eleicao_eleicao_id = 3) TO 'DorisVotosConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+\copy (select * from voto where eleicao_id = 3) TO 'DorisVotosConre3.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);

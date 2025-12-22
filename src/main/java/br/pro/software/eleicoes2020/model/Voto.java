@@ -3,12 +3,7 @@ package br.pro.software.eleicoes2020.model;
 import java.io.Serializable;
 import java.time.ZonedDateTime;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 
 //import org.hibernate.annotations.Type;
 //import org.hibernate.annotations.TypeDef;
@@ -30,26 +25,28 @@ import lombok.NoArgsConstructor;
 //})
 @Entity @Data @NoArgsConstructor
 public class Voto implements Serializable {
+
 	private static final long serialVersionUID = 1L;
-	@Id
-	@GeneratedValue
-	private Long id;
+
+	@Id @GeneratedValue private Long id;
+
+	@ManyToOne(cascade = CascadeType.ALL) private Pessoa pessoa;
+
+
 	@ManyToOne(cascade = CascadeType.ALL)
-	private Pessoa pessoa;
-//	@ManyToOne(cascade = CascadeType.ALL)
-//	private Candidato candidato;
-	@ManyToOne(cascade = CascadeType.ALL)
+	@JoinColumn(name = "eleicao_id", nullable = false)
 	private Eleicao eleicao;
-    //@Type(type = "list-array")
-    @Column(
+
+	@Column(
         name = "candidatos_id",
         columnDefinition = "bigint[]"
     )
 	@JdbcTypeCode(SqlTypes.ARRAY)
 	private Long[] candidatos_id;
+
 	private ZonedDateTime criado;
-	@Column(length = 128)
-	private String ip;
+
+	@Column(length = 128) private String ip;
 
 	public Voto(Pessoa pessoa, Long[] candidatos_id, Eleicao eleicao, String ip) {
 		this.pessoa = pessoa;

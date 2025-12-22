@@ -2,12 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:insert="header :: padrao"></div>
+	<div th:insert="~{header :: padrao}"></div>
 	<title>Painel De Controle</title>
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous"></head>
 	<script type="text/javascript">
     	function edit_email(name) {
-    		//var el = document.getElementsByName("email-" + name)[0];
     		var el = document.getElementById("email-" + name);
     		el.disabled = false;
     		el.focus();
@@ -76,6 +75,6 @@
 </div>
 	
 	
-<div th:replace="footer :: scripts"></div>
+<div th:replace="~{footer :: scripts}"></div>
 </body>
 </html>

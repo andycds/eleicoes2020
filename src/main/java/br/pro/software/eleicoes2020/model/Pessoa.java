@@ -22,6 +22,7 @@ public class Pessoa implements Serializable {
     private String email;
     private String celular;
     private Boolean apto;
+
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "eleicao_id", nullable = false)
     private Eleicao eleicao;

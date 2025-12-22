@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:th="http://www.thymeleaf.org">
 <head>
-	<div th:insert="header :: padrao"></div>
+	<div th:insert="~{header :: padrao}"></div>
 	<title>Votação</title>
 	<script type="text/javascript">
 	
@@ -119,6 +119,6 @@
 		</div>
 	</div>
 </div>
-<div th:replace="footer :: scripts"></div>
+<div th:replace="~{footer :: scripts}"></div>
 </body>
 </html>
