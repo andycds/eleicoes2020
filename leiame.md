@@ -10,6 +10,8 @@ Estamos usando a stack heroku-22.
 
 http://localhost:8181/
 
+https://vote.ext.......com
+
 ## DocOrigem
 
 No campo docOrigem de `Pessoa` marque a inscrição do candidato junto ao Conre. Passe esse valor junto ao nome para eles, para identificarem quem votou.
