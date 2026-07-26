@@ -74,7 +74,7 @@
 					</a>
 				</td>
 				<td>
-					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/celular/'+${pessoa.id}}">
+					<form action="#" th:object="${pesEdit}" th:method="post" th:action="@{'/master/celular/'+${pessoa.id}}">
     					<input type="tel" class="form-control" th:id="'celular-'+${pessoa.login}" th:name="celular" th:value="${pessoa.celular}" disabled>
     				</form>
     			</td>
