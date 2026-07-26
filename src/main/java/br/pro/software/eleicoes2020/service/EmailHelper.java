@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import br.pro.software.eleicoes2020.controller.VotoController;
 import br.pro.software.eleicoes2020.model.Eleicao;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
@@ -14,12 +15,16 @@ import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
 import br.pro.software.eleicoes2020.model.Pessoa;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EmailHelper {
 	private static final int HTTP_OK = 200;
 	private static final int HTTP_NOT_FOUND = 404;
 
 	private static SendGrid sg = new SendGrid(System.getenv("SG_API_2021"));
+
+	private static final Logger logger = LoggerFactory.getLogger(EmailHelper.class);
 
 	public static void send(Pessoa pessoa) {
 		if (!pessoa.temEmailValido()) {
@@ -43,8 +48,9 @@ public class EmailHelper {
 					Response response = sg.api(request);
 					System.out.println(response.getStatusCode());
 					System.out.println(response.getHeaders());
+                    logger.warn("email enviado: {}", destinatario.trim());
 				} catch (IOException ex) {
-
+					logger.error("erro ao enviar e-mail para: {}", destinatario.trim());
 				}
 			}
 		}
