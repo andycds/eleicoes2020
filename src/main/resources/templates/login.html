@@ -8,7 +8,7 @@
 	<body class="text-center">		
 		<form class="form-signin" method="post" th:object="${login}" th:action="@{/fazerLogin}">
 			<img class="mb-4" src="/public/images/vote.png" alt="voto" width="72" height="72">
-			<h1 class="h3 mb-3 font-weight-normal">Login Eleição CONRE 2025</h1>
+			<h1 class="h3 mb-3 font-weight-normal">Login Eleição CONRE 2026</h1>
 			<div th:if="${param.senha}" class="alert alert-danger">Login ou senha inválidos.</div>
 			<div th:if="${param.prazo}" class="alert alert-warning">Eleição fora do período.</div>
 			<div th:if="${param.naoApto}" class="alert alert-danger">Eleitor não apto. Consulte o CONRE.</div>
