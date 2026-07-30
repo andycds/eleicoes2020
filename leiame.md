@@ -48,7 +48,47 @@ git push heroku conres:master
 
 select count(candidatos_id) from voto v where 16=any(candidatos_id);
 
+SELECT
+c.id,
+c.nome,
+COUNT(*) AS total_votos
+FROM voto v
+CROSS JOIN LATERAL unnest(v.candidatos_id) AS u(candidato_id)
+JOIN candidato c
+ON c.id = u.candidato_id
+where v.eleicao_id = 7
+GROUP BY c.id, c.nome
+ORDER BY total_votos DESC, c.nome;
+
+SELECT
+c.nome,
+COUNT(*) AS total_votos
+FROM voto v
+CROSS JOIN LATERAL unnest(v.candidatos_id) AS u(candidato_id)
+JOIN candidato c
+ON c.id = u.candidato_id
+where v.eleicao_id = 7
+GROUP BY c.nome
+ORDER BY total_votos DESC, c.nome;
+
+
 ## Exportação
+
+### Votantes
+
+`\COPY (select p.login, p.doc_origem, p.nome, p.email, p.celular 
+from pessoa p join voto v on p.id = v.pessoa_id 
+where v.eleicao_id = 7 order by login) 
+TO 'votantesConre7.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+`
+### Não Votantes
+\COPY (
+SELECT p.login, p.doc_origem, p.apto, p.nome, p.email, p.celular
+FROM pessoa p WHERE eleicao_id = 7 and NOT EXISTS (
+SELECT 1 FROM voto v WHERE v.pessoa_id = p.id AND v.eleicao_id = 7)
+ORDER BY p.apto desc, p.login
+) TO 'NAOvotantesConre7.tsv' WITH (FORMAT CSV, DELIMITER E'\t', HEADER);
+
 
 \copy (WITH expanded AS (
 SELECT unnest(candidatos_id) AS number
