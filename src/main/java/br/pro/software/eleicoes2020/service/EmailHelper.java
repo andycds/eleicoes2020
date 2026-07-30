@@ -1,11 +1,15 @@
 package br.pro.software.eleicoes2020.service;
 
 import java.io.IOException;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import br.pro.software.eleicoes2020.controller.VotoController;
 import br.pro.software.eleicoes2020.model.Eleicao;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sendgrid.Method;
 import com.sendgrid.Request;
 import com.sendgrid.Response;
@@ -70,7 +74,36 @@ public class EmailHelper {
 		sb.append("</HTML>");
 		return sb.toString();
 	}
-	
+
+	private static String verificarStatus(String email) {
+		Request request = new Request();
+		request.setMethod(Method.GET);
+		request.setEndpoint("messages");
+		request.addQueryParam("query", "to_email=\"" + email + "\"");
+		request.addQueryParam("limit", "10");
+		try {
+			Response response = sg.api(request);
+			ObjectMapper mapper = new ObjectMapper();
+			JsonNode root = mapper.readTree(response.getBody());
+			JsonNode messages = root.get("messages");
+			if (messages != null && messages.isArray() && !messages.isEmpty()) {
+				StringBuilder sb = new StringBuilder();
+				for (JsonNode message : messages) {
+					String status = message.get("status").asText();
+					String msgId = message.get("msg_id").asText();
+					sb.append("Msg ID: " + msgId + " | Status: " + status);
+				}
+				return sb.toString();
+			} else {
+				logger.error("Resposta de confirmação de envio não disponível: {}", email);
+				return "?";
+			}
+		} catch (IOException e) {
+			logger.error("Erro ao acessar confirmação de envio: {}", email);
+			return "erro";
+		}
+	}
+
 	private static String adicionarComQuebra(String texto) {
 		return texto.replace("\\n", "<br>");
 	}

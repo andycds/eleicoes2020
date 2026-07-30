@@ -1,12 +1,16 @@
 package br.pro.software.eleicoes2020.controller;
 
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import br.pro.software.eleicoes2020.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,10 +23,6 @@ import br.pro.software.eleicoes2020.model.Pessoa;
 import br.pro.software.eleicoes2020.repository.ConfirmacaoSMSRepository;
 import br.pro.software.eleicoes2020.repository.PessoaRepository;
 import br.pro.software.eleicoes2020.repository.VotoRepository;
-import br.pro.software.eleicoes2020.service.EmailHelper;
-import br.pro.software.eleicoes2020.service.LoginService;
-import br.pro.software.eleicoes2020.service.SMSHelper;
-import br.pro.software.eleicoes2020.service.VotoService;
 
 @Controller
 @RequestMapping("/master")
@@ -38,6 +38,9 @@ public class MasterController {
 	
 	@Autowired
 	VotoRepository votoRepo;
+
+	@Autowired
+	ReportService reportService;
 	
 	@Autowired
 	private ConfirmacaoSMSRepository confirmacaoSMSRepo;
@@ -89,6 +92,16 @@ public class MasterController {
 		mv.addObject("votoService", votoService);
 		mv.addObject("pesEdit", new Pessoa());
 		return mv;
+	}
+
+	@GetMapping("/downloadResultado")
+	public void downloadResultado(@ModelAttribute("eleicao") Eleicao eleicao, HttpServletResponse response) throws IOException {
+		response.setContentType("text/csv; charset=UTF-8");
+		response.setHeader(
+				HttpHeaders.CONTENT_DISPOSITION,
+				"attachment; filename=\"usuarios.csv\""
+		);
+		reportService.resultado(response.getWriter(), eleicao);
 	}
 
 	@GetMapping("/painelDeControleTotal")
