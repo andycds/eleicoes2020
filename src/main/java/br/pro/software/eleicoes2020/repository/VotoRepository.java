@@ -14,17 +14,9 @@ import org.springframework.data.repository.query.Param;
 public interface VotoRepository extends JpaRepository<Voto, Long> {
 	boolean existsByPessoaId(Long pessoaId);
 	List<Voto> findAllByPessoaId(Long pessoaId);
-	@Query(value = """
-	SELECT 
-			c.nome,
-			COUNT(*) AS votos
-		FROM voto v
-			CROSS JOIN LATERAL unnest(v.candidatos_id) AS u(candidato_id)
-			JOIN candidato c
-			ON c.id = u.candidato_id
-		where v.eleicao_id = :eleicaoId
-			GROUP BY c.nome\n
-			ORDER BY total_votos DESC, c.nome;""", nativeQuery = true
+	@Query(value = "SELECT c.nome, COUNT(*) AS votos " +
+	"FROM voto v CROSS JOIN LATERAL unnest(v.candidatos_id) AS u(candidato_id) JOIN candidato c ON c.id = u.candidato_id " +
+	"where v.eleicao_id = :eleicaoId GROUP BY c.nome ORDER BY votos DESC, c.nome;", nativeQuery = true
 )
     Stream<ResultadoProjection> resultado(@Param("eleicaoId") long eleicaoId);
 }
